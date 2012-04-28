@@ -24,13 +24,38 @@ namespace network_toolkit
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
-        // Load data for the ViewModel Items
+        /// <summary>
+        /// Load data for the ViewModel Items.
+        /// </summary>
         private void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
             if (!App.ViewModel.IsDataLoaded)
             {
                 App.ViewModel.LoadData();
             }
+        }
+
+        /// <summary>
+        /// Handle selection changed on ListBox
+        /// </summary>
+/*        private void toolListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // If selected index is -1 (no selection) do nothing
+            if (toolListBox.SelectedIndex == -1)
+                return;
+
+
+            // Navigate to the new page
+            NavigationService.Navigate(new Uri("/DetailsPage.xaml", UriKind.Relative));
+
+            // Reset selected index to -1 (no selection)
+            toolListBox.SelectedIndex = -1;
+        }*/
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            string url = (sender as Button).Tag.ToString();
+            NavigationService.Navigate(new Uri(url, UriKind.Relative));
         }
     }
 }

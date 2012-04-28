@@ -8,6 +8,7 @@
 
     <!--Application Resources-->
     <Application.Resources>
+        <ResourceDictionary Source="Resources.xaml"/>
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>
