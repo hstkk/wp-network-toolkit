@@ -46,6 +46,8 @@ namespace network_toolkit.ViewModels
         public void LoadData()
         {
             this.MenuItems.Add(new Menu("port scanner", "port-scanner.xaml"));
+            this.MenuItems.Add(new Menu("port knocker", "port-knocker.xaml"));
+            this.MenuItems.Add(new Menu("speed-test", "speed-test.xaml"));
             this.IsDataLoaded = true;
         }
     }

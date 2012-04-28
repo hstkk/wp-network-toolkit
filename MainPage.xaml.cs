@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using network_toolkit.ViewModels;
 
 namespace network_toolkit
 {
@@ -24,6 +25,7 @@ namespace network_toolkit
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
         }
 
+        #region Events
         /// <summary>
         /// Load data for the ViewModel Items.
         /// </summary>
@@ -35,27 +37,30 @@ namespace network_toolkit
             }
         }
 
+        private void contextMenu_Click(object sender, SelectionChangedEventArgs e)
+        {
+            //ContextMenu contextMenu = (sender as ContextMenu);
+            //MessageBox.Show(contextMenu.);
+        }
+
         /// <summary>
         /// Handle selection changed on ListBox
         /// </summary>
-/*        private void toolListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ListBox listbox = (sender as ListBox);
             // If selected index is -1 (no selection) do nothing
-            if (toolListBox.SelectedIndex == -1)
+            if (listbox.SelectedIndex == -1)
                 return;
 
-
+            Menu menu = listbox.SelectedItem as Menu;
+            MessageBox.Show(menu.Url);
             // Navigate to the new page
-            NavigationService.Navigate(new Uri("/DetailsPage.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/DetailsPage.xaml", UriKind.Relative));
 
             // Reset selected index to -1 (no selection)
-            toolListBox.SelectedIndex = -1;
-        }*/
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            string url = (sender as Button).Tag.ToString();
-            NavigationService.Navigate(new Uri(url, UriKind.Relative));
+            listbox.SelectedIndex = -1;
         }
+        #endregion
     }
 }
