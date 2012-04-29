@@ -19,7 +19,7 @@
         <controls:Panorama Title="network toolkit"
                            Name="panorama">
             <controls:Panorama.Background>
-                <ImageBrush ImageSource="PanoramaBackground.png"/>
+                <ImageBrush ImageSource="img/panoramaBackground.jpg"/>
             </controls:Panorama.Background>
 
             <!--favorites-->
@@ -60,19 +60,19 @@
             <controls:PanoramaItem Header="network">
                 <StackPanel Margin="0,0,-12,0">
                     <TextBlock Text="carrier"
-                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                               Style="{StaticResource PhoneTextSmallStyleForeground}"/>
                     <TextBlock Name="carrier"
                                Style="{StaticResource PhoneTextLargeStyle}"/>
                     <TextBlock Text="network available"
-                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                               Style="{StaticResource PhoneTextSmallStyleForeground}"/>
                     <TextBlock Name="networkAvailable"
                                Style="{StaticResource PhoneTextLargeStyle}"/>
                     <TextBlock Text="cellular data enabled"
-                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                               Style="{StaticResource PhoneTextSmallStyleForeground}"/>
                     <TextBlock Name="cellularDataEnabled"
                                Style="{StaticResource PhoneTextLargeStyle}"/>
                     <TextBlock Text="wifi enabled"
-                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                               Style="{StaticResource PhoneTextSmallStyleForeground}"/>
                     <TextBlock Name="wifiEnabled"
                                Style="{StaticResource PhoneTextLargeStyle}"/>
                     <Button Content="wifi settings"
@@ -86,8 +86,10 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True"
                               IsMenuEnabled="True"
-                              Opacity="0.5"
-                              Mode="Minimized">
+                              Opacity="0.95"
+                              Mode="Minimized"
+                              BackgroundColor="{StaticResource PhoneContrastBackgroundColor}"
+                              ForegroundColor="{StaticResource PhoneContrastForegroundColor}">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="applicationBarMenuItem_Click"/>
                 <shell:ApplicationBarMenuItem Text="About" Click="applicationBarMenuItem_Click"/>

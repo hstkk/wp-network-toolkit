@@ -26,26 +26,28 @@
     </DataTemplate>
 
     <Style TargetType="Button">
-        <Setter Property="toolkit:TiltEffect.IsTiltEnabled">
-            <Setter.Value>
-                true
-            </Setter.Value>
-        </Setter>
+        <Setter Property="toolkit:TiltEffect.IsTiltEnabled" Value="True"/>
     </Style>
 
     <Style TargetType="RadioButton">
-        <Setter Property="toolkit:TiltEffect.IsTiltEnabled">
-            <Setter.Value>
-                true
-            </Setter.Value>
-        </Setter>
+        <Setter Property="toolkit:TiltEffect.IsTiltEnabled" Value="True"/>
     </Style>
 
     <Style TargetType="toolkit:ToggleSwitch">
-        <Setter Property="toolkit:TiltEffect.IsTiltEnabled">
-            <Setter.Value>
-                true
-            </Setter.Value>
-        </Setter>
+        <Setter Property="toolkit:TiltEffect.IsTiltEnabled" Value="True"/>
+    </Style>
+
+    <Style TargetType="TextBlock"
+           x:Key="PhoneTextSmallStyleForeground"
+           BasedOn="{StaticResource PhoneTextSmallStyle}">
+        <Setter Property="Foreground" Value="{StaticResource PhoneForegroundColor}"/>
+    </Style>
+
+    <Style TargetType="TextBlock"
+           BasedOn="{StaticResource PhoneTextNormalStyle}"/>
+
+    <Style TargetType="Image"
+           x:Key="panoramaOverlay">
+        <Setter Property="OpacityMask"  Value="CornflowerBlue"/>
     </Style>
 </ResourceDictionary>
