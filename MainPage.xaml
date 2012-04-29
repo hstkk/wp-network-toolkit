@@ -54,6 +54,26 @@
             <!--network-->
             <controls:PanoramaItem Header="network">
                 <StackPanel Margin="0,0,-12,0">
+                    <TextBlock Text="carrier"
+                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                    <TextBlock Name="carrier"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="network available"
+                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                    <TextBlock Name="networkAvailable"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="cellular data enabled"
+                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                    <TextBlock Name="cellularDataEnabled"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="wifi enabled"
+                               Style="{StaticResource PhoneTextSmallStyle}"/>
+                    <TextBlock Name="wifiEnabled"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <Button Content="wifi settings"
+                            Click="wifi_Click"/>
+                    <Button Content="cellular settings"
+                            Click="cellular_Click"/>
                 </StackPanel>
             </controls:PanoramaItem>
         </controls:Panorama>

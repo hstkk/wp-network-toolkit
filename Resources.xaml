@@ -18,11 +18,18 @@
     </DataTemplate>
 
     <DataTemplate x:Key="FavoriteItem">
-
         <toolkit:HubTile Notification="{Binding Title}"
                          Title="{Binding Title}"
                          toolkit:TiltEffect.IsTiltEnabled="True"
                          IsFrozen="True"
                          GroupTag="Favorites"/>
     </DataTemplate>
+
+    <Style TargetType="Button">
+        <Setter Property="toolkit:TiltEffect.IsTiltEnabled">
+            <Setter.Value>
+                true
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

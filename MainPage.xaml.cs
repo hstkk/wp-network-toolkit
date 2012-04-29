@@ -11,6 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using network_toolkit.ViewModels;
+using Microsoft.Phone.Tasks;
+using Microsoft.Phone.Net.NetworkInformation; 
 
 namespace network_toolkit
 {
@@ -23,6 +25,16 @@ namespace network_toolkit
             // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
             this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+
+            DeviceNetworkInformation.NetworkAvailabilityChanged +=new EventHandler<NetworkNotificationEventArgs>(networkInfo_NetworkAvailabilityChanged);
+        }
+
+        private void getNetworkInfo()
+        {
+            carrier.Text = DeviceNetworkInformation.CellularMobileOperator.ToLower();
+            networkAvailable.Text = DeviceNetworkInformation.IsNetworkAvailable.ToString();
+            cellularDataEnabled.Text = DeviceNetworkInformation.IsCellularDataEnabled.ToString();
+            wifiEnabled.Text = DeviceNetworkInformation.IsWiFiEnabled.ToString();
         }
 
         #region Events
@@ -60,6 +72,31 @@ namespace network_toolkit
 
             // Reset selected index to -1 (no selection)
             listbox.SelectedIndex = -1;
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            getNetworkInfo();
+        }
+
+        private void wifi_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
+            connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
+            connectionSettingsTask.Show();
+        }
+
+        private void cellular_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
+            connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.Cellular;
+            connectionSettingsTask.Show();
+        }
+
+        private void networkInfo_NetworkAvailabilityChanged(object sender, NetworkNotificationEventArgs e)
+        {
+            getNetworkInfo();
         }
         #endregion
     }
