@@ -8,12 +8,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Runtime.Serialization;
 
 namespace network_toolkit.ViewModels
 {
+    [DataContract]
     public class Menu
     {
+        [DataMember]
         public string Title { get; private set; }
+        [DataMember]
         public string Url { get; private set; }
 
         public Menu(string Title, string Url)

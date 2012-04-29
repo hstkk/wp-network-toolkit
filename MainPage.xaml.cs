@@ -46,7 +46,7 @@ namespace network_toolkit
         {
             if (!App.ViewModel.IsDataLoaded)
             {
-                App.ViewModel.LoadData();
+                App.loadData();
             }
         }
 

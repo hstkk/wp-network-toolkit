@@ -25,7 +25,7 @@
             <!--favorites-->
             <controls:PanoramaItem Header="favorites">
                 <StackPanel Margin="0,0,-12,0">
-                    <ListBox ItemsSource="{Binding MenuItems}"
+                    <ListBox ItemsSource="{Binding FavoriteItems}"
                              ItemTemplate="{StaticResource FavoriteItem}"
                              SelectionChanged="listBox_SelectionChanged">
                         <toolkit:WrapPanel Orientation="Horizontal">
