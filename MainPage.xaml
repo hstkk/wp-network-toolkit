@@ -84,7 +84,8 @@
                               Opacity="0.5"
                               Mode="Minimized">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="About"/>
+                <shell:ApplicationBarMenuItem Text="Settings" Click="applicationBarMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="About" Click="applicationBarMenuItem_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

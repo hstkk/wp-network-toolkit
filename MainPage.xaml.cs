@@ -12,7 +12,8 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using network_toolkit.ViewModels;
 using Microsoft.Phone.Tasks;
-using Microsoft.Phone.Net.NetworkInformation; 
+using Microsoft.Phone.Net.NetworkInformation;
+using Microsoft.Phone.Shell; 
 
 namespace network_toolkit
 {
@@ -32,9 +33,9 @@ namespace network_toolkit
         private void getNetworkInfo()
         {
             carrier.Text = DeviceNetworkInformation.CellularMobileOperator.ToLower();
-            networkAvailable.Text = DeviceNetworkInformation.IsNetworkAvailable.ToString();
-            cellularDataEnabled.Text = DeviceNetworkInformation.IsCellularDataEnabled.ToString();
-            wifiEnabled.Text = DeviceNetworkInformation.IsWiFiEnabled.ToString();
+            networkAvailable.Text = DeviceNetworkInformation.IsNetworkAvailable.ToString().ToLower();
+            cellularDataEnabled.Text = DeviceNetworkInformation.IsCellularDataEnabled.ToString().ToLower();
+            wifiEnabled.Text = DeviceNetworkInformation.IsWiFiEnabled.ToString().ToLower();
         }
 
         #region Events
@@ -97,6 +98,13 @@ namespace network_toolkit
         private void networkInfo_NetworkAvailabilityChanged(object sender, NetworkNotificationEventArgs e)
         {
             getNetworkInfo();
+        }
+
+        private void applicationBarMenuItem_Click(object sender, EventArgs e)
+        {
+            ApplicationBarMenuItem applicationBarMenuItem = sender as ApplicationBarMenuItem;
+            if(applicationBarMenuItem != null)
+                NavigationService.Navigate(new Uri("/" + applicationBarMenuItem.Text.ToLower() + ".xaml", UriKind.Relative));
         }
         #endregion
     }

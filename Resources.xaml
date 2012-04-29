@@ -32,4 +32,20 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="RadioButton">
+        <Setter Property="toolkit:TiltEffect.IsTiltEnabled">
+            <Setter.Value>
+                true
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="toolkit:ToggleSwitch">
+        <Setter Property="toolkit:TiltEffect.IsTiltEnabled">
+            <Setter.Value>
+                true
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
