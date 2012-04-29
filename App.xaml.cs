@@ -13,12 +13,20 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using network_toolkit.ViewModels;
+using System.IO.IsolatedStorage;
 
 namespace network_toolkit
 {
     public partial class App : Application
     {
         private static MainViewModel viewModel = null;
+        private List<Menu> favorites = null;
+        public int homescreen;
+        private const int homescreenDefault = 1;
+        public bool isLocationAllowed;
+        private const bool isLocationAllowedDefault = false;
+        public bool isFirstRun;
+        private const bool isFirstRunDefault = true;
 
         /// <summary>
         /// A static ViewModel used by the views to bind against.
@@ -31,7 +39,6 @@ namespace network_toolkit
                 // Delay creation of the view model until necessary
                 if (viewModel == null)
                     viewModel = new MainViewModel();
-
                 return viewModel;
             }
         }
@@ -82,12 +89,14 @@ namespace network_toolkit
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            loadSettings();
         }
 
         // Code to execute when the application is activated (brought to foreground)
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            loadSettings();
             // Ensure that application state is restored appropriately
             if (!App.ViewModel.IsDataLoaded)
             {
@@ -99,6 +108,7 @@ namespace network_toolkit
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            saveSettings();
             // Ensure that required application state is persisted here.
         }
 
@@ -106,6 +116,7 @@ namespace network_toolkit
         // This code will not execute when the application is deactivated
         private void Application_Closing(object sender, ClosingEventArgs e)
         {
+            saveSettings();
         }
 
         // Code to execute if a navigation fails
@@ -125,6 +136,38 @@ namespace network_toolkit
             {
                 // An unhandled exception has occurred; break into the debugger
                 System.Diagnostics.Debugger.Break();
+            }
+        }
+
+        private void loadSettings()
+        {
+            try
+            {
+                IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+                if (!settings.TryGetValue<int>("homescreen", out homescreen))
+                    homescreen = homescreenDefault;
+                if (!settings.TryGetValue<bool>("isLocationAllowed", out isLocationAllowed))
+                    isLocationAllowed = isLocationAllowedDefault;
+                if (!settings.TryGetValue<bool>("isFirstRun", out isFirstRun))
+                    isFirstRun = isFirstRunDefault;
+            }
+            catch (Exception e)
+            {
+            }
+        }
+
+        private void saveSettings()
+        {
+            try
+            {
+                IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+                settings["homescreen"] = homescreen;
+                settings["isLocationAllowed"] = isLocationAllowed;
+                settings["isFirstRun"] = isFirstRun;
+                settings.Save();
+            }
+            catch (Exception e)
+            {
             }
         }
 

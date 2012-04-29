@@ -29,17 +29,18 @@
 
         <StackPanel Grid.Row="1" Margin="12,0,12,0">
             <TextBlock Text="Homescreen"/>
-            <RadioButton Content="Favorites"
+            <RadioButton Name="favorites"
+                         Content="Favorites"
                          Tag="0"
                          GroupName="Homescreen"
                          Checked="radioButton_Checked"/>
-            <RadioButton Content="Tools"
+            <RadioButton Name="tools"
+                         Content="Tools"
                          Tag="1"
                          GroupName="Homescreen"
                          Checked="radioButton_Checked"/>
             <TextBlock Text="Allow the network toolkit to access your location?"/>
             <toolkit:ToggleSwitch Name="toggleSwitch"
-                                  IsChecked="False"
                                   Content="Disallow"
                                   Unchecked="toggleSwitch_Unchecked"
                                   Checked="toggleSwitch_Checked"/>

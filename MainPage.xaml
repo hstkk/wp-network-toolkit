@@ -16,22 +16,27 @@
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <controls:Panorama Title="network tookit">
+        <controls:Panorama Title="network toolkit"
+                           Name="panorama">
             <controls:Panorama.Background>
                 <ImageBrush ImageSource="PanoramaBackground.png"/>
             </controls:Panorama.Background>
 
             <!--favorites-->
             <controls:PanoramaItem Header="favorites">
-                <ListBox Margin="0,0,-12,0"
-                         ItemsSource="{Binding MenuItems}"
-                         ItemTemplate="{StaticResource FavoriteItem}"
-                         SelectionChanged="listBox_SelectionChanged">
-                    <toolkit:WrapPanel Orientation="Horizontal">
-                        <ListBoxItem Content="{Binding Title}"
-                                     Tag="{Binding Url}"/>
-                    </toolkit:WrapPanel>
-                </ListBox>
+                <StackPanel Margin="0,0,-12,0">
+                    <ListBox ItemsSource="{Binding MenuItems}"
+                             ItemTemplate="{StaticResource FavoriteItem}"
+                             SelectionChanged="listBox_SelectionChanged">
+                        <toolkit:WrapPanel Orientation="Horizontal">
+                            <ListBoxItem Content="{Binding Title}"
+                                         Tag="{Binding Url}"/>
+                        </toolkit:WrapPanel>
+                    </ListBox>
+                    <TextBlock Text="Tap and hold the tool you want to pin, then tap Pin to Favorites."
+                               TextWrapping="Wrap"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                </StackPanel>
             </controls:PanoramaItem>
 
             <!--tools-->

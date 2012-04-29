@@ -78,6 +78,12 @@ namespace network_toolkit
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            if ((Application.Current as App).isFirstRun)
+            {
+                (Application.Current as App).isFirstRun = false;
+                NavigationService.Navigate(new Uri("/settings.xaml", UriKind.Relative));
+            }
+            panorama.DefaultItem = panorama.Items[(Application.Current as App).homescreen];
             getNetworkInfo();
         }
 
