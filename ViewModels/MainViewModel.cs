@@ -15,12 +15,16 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Text;
 using System.IO.IsolatedStorage;
+using System.ComponentModel;
+using System.Linq;
 
 namespace network_toolkit.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : INotifyPropertyChanged
     {
         #region Initialize
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// Initialises Items list.
         /// </summary>
@@ -64,14 +68,17 @@ namespace network_toolkit.ViewModels
             this.IsDataLoaded = true;
         }
 
+        /// <summary>
+        /// Serializes FavoriteItems ObservableCollection for saving.
+        /// </summary>
+        /// <returns>Serialized FavoriteItems</returns>
         public string serialize()
         {
             string serialized = "";
             try
             {
-                /*if (FavoriteItems.Count > 0)
-                {*/
-                MessageBox.Show(FavoriteItems.Count + "");
+                if (FavoriteItems.Count > 0)
+                {
                     using (MemoryStream memoryStream = new MemoryStream())
                     using (StreamReader streamReader = new StreamReader(memoryStream))
                     {
@@ -79,9 +86,8 @@ namespace network_toolkit.ViewModels
                         dataContractSerializer.WriteObject(memoryStream, FavoriteItems);
                         memoryStream.Position = 0;
                         serialized = streamReader.ReadToEnd();
-                        MessageBox.Show(serialized);
                     }
-                //}
+                }
             }
             catch (Exception e)
             {
@@ -89,31 +95,49 @@ namespace network_toolkit.ViewModels
             return serialized;
         }
 
+        /// <summary>
+        /// Deserializes saved FavoriteItems to ObservableCollection.
+        /// </summary>
+        /// <param name="serialized">Serialized FavoriteItems</param>
         private void deserialize(string serialized)
         {
             try
             {
-                MessageBox.Show(serialized);
                 if (!serialized.Equals(""))
                 {
                     DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObservableCollection<Menu>));
                     using (MemoryStream memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(serialized)))
                     {
                         FavoriteItems = dataContractSerializer.ReadObject(memoryStream) as ObservableCollection<Menu>;
+                        if (PropertyChanged != null)
+                            PropertyChanged(this, new PropertyChangedEventArgs("FavoriteItems"));
                     }
-                    MessageBox.Show(FavoriteItems.Count + "");
-                    MessageBox.Show("kk");
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
             }
         }
 
+        /// <summary>
+        /// Adds a new favorite item.
+        /// </summary>
+        /// <param name="title">Favorite title</param>
+        /// <param name="url">Favorite url</param>
         public void addToFavorites(string title, string url)
         {
-            FavoriteItems.Add(new Menu(title, url));
+            if (!title.Equals("") && !url.Equals("") && (from m in FavoriteItems where m.Url == url select m).Count() == 0)
+                FavoriteItems.Add(new Menu(title, url));
+        }
+
+        /// <summary>
+        /// Remove a favorite item.
+        /// </summary>
+        /// <param name="menu">Favorite item</param>
+        public void deleteFromFavorites(Menu menu)
+        {
+            if(menu != null)
+                FavoriteItems.Remove(menu);
         }
         #endregion
     }
