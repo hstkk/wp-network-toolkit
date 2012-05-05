@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2012 Sami Hostikka <dev@01.fi>
+using System;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,15 +16,17 @@ namespace network_toolkit.ViewModels
     [DataContract]
     public class Menu
     {
+        #region Initialize
         [DataMember]
-        public string Title { get; private set; }
+        public string Title { get; set; }
         [DataMember]
-        public string Url { get; private set; }
+        public string Url { get; set; }
 
         public Menu(string Title, string Url)
         {
             this.Title = Title;
             this.Url = Url;
         }
+        #endregion
     }
 }

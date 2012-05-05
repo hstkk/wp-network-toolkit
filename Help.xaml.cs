@@ -13,9 +13,9 @@ using Microsoft.Phone.Controls;
 
 namespace network_toolkit
 {
-    public partial class about : PhoneApplicationPage
+    public partial class Help : PhoneApplicationPage
     {
-        public about()
+        public Help()
         {
             InitializeComponent();
         }

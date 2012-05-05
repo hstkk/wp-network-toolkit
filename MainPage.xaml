@@ -1,4 +1,5 @@
-﻿<phone:PhoneApplicationPage 
+﻿<!--2012 Sami Hostikka <dev@01.fi>-->
+<phone:PhoneApplicationPage 
     x:Class="network_toolkit.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -29,8 +30,7 @@
                              ItemTemplate="{StaticResource FavoriteItem}"
                              SelectionChanged="listBox_SelectionChanged">
                         <toolkit:WrapPanel Orientation="Horizontal">
-                            <ListBoxItem Content="{Binding Title}"
-                                         Tag="{Binding Url}"/>
+                            <ListBoxItem Content="{Binding Title}"/>
                         </toolkit:WrapPanel>
                     </ListBox>
                     <TextBlock Text="Tap and hold the tool you want to pin, then tap Pin to Favorites."
@@ -76,9 +76,9 @@
                     <TextBlock Name="wifiEnabled"
                                Style="{StaticResource PhoneTextLargeStyle}"/>
                     <Button Content="wifi settings"
-                            Click="wifi_Click"/>
+                            Click="setting_Click"/>
                     <Button Content="cellular settings"
-                            Click="cellular_Click"/>
+                            Click="setting_Click"/>
                 </StackPanel>
             </controls:PanoramaItem>
         </controls:Panorama>
@@ -92,7 +92,7 @@
                               ForegroundColor="{StaticResource PhoneContrastForegroundColor}">
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="applicationBarMenuItem_Click"/>
-                <shell:ApplicationBarMenuItem Text="About" Click="applicationBarMenuItem_Click"/>
+                <shell:ApplicationBarMenuItem Text="Help" Click="applicationBarMenuItem_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

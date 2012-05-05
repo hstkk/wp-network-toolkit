@@ -20,7 +20,7 @@ namespace network_toolkit
     public partial class App : Application
     {
         private static MainViewModel viewModel = null;
-        private static List<Menu> favorites = null;
+        //private static string favorites = "";
         public int homescreen;
         private const int homescreenDefault = 1;
         public bool isLocationAllowed;
@@ -100,7 +100,7 @@ namespace network_toolkit
             // Ensure that application state is restored appropriately
             if (!App.ViewModel.IsDataLoaded)
             {
-                App.ViewModel.LoadData(favorites);
+                App.ViewModel.LoadData();
             }
         }
 
@@ -139,27 +139,10 @@ namespace network_toolkit
             }
         }
 
-        public static void loadData()
-        {
-            try
-            {
-                IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-                if(settings.Contains("favorites"))
-                    settings.TryGetValue<List<Menu>>("favorites", out favorites);
-            }
-            catch (Exception e)
-            {
-            }
-            // Ensure that application state is restored appropriately
-            if (!App.ViewModel.IsDataLoaded)
-            {
-                App.ViewModel.LoadData(favorites);
-            }
-        }
-
         private void loadSettings()
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            //settings.TryGetValue<string>("favorites", out favorites);
             if (!settings.TryGetValue<int>("homescreen", out homescreen))
                 homescreen = homescreenDefault;
             if (!settings.TryGetValue<bool>("isLocationAllowed", out isLocationAllowed))
@@ -176,9 +159,7 @@ namespace network_toolkit
                 settings["homescreen"] = homescreen;
                 settings["isLocationAllowed"] = isLocationAllowed;
                 settings["isFirstRun"] = isFirstRun;
-                favorites = App.viewModel.toList();
-                if(favorites != null)
-                    settings["favorites"] = App.viewModel.toList();
+                settings["favorites"] = App.ViewModel.serialize();
                 settings.Save();
             }
             catch (Exception e)

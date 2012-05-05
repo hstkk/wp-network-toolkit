@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2012 Sami Hostikka <dev@01.fi>
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,6 +17,7 @@ namespace network_toolkit
 {
     public partial class settings : PhoneApplicationPage
     {
+        #region Initialize
         public settings()
         {
             InitializeComponent();
@@ -26,13 +28,21 @@ namespace network_toolkit
             else
                 tools.IsChecked = true;
         }
+        #endregion
 
+        #region Events
+        /// <summary>
+        /// When toggleswitch is unchecked updates toggleswitch content and saves state to settings.
+        /// </summary>
         private void toggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
             toggleSwitch.Content = "Disallow";
             (Application.Current as App).isLocationAllowed = false;
         }
 
+        /// <summary>
+        /// When toggleswitch is checked updates toggleswitch content and saves state to settings.
+        /// </summary>
         private void toggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             toggleSwitch.Content = "Allow";
@@ -40,12 +50,22 @@ namespace network_toolkit
 
         }
 
+        /// <summary>
+        /// Saves selected homescreen to settings.
+        /// </summary>
         private void radioButton_Checked(object sender, RoutedEventArgs e)
         {
-            RadioButton radioButton = sender as RadioButton;
-            int index;
-            if (radioButton != null && int.TryParse(radioButton.Tag.ToString(), out index))
-                (Application.Current as App).homescreen = index;
+            try
+            {
+                RadioButton radioButton = sender as RadioButton;
+                int index;
+                if (radioButton != null && int.TryParse(radioButton.Tag.ToString(), out index))
+                    (Application.Current as App).homescreen = index;
+            }
+            catch (Exception ex)
+            {
+            }
         }
+    #endregion
     }
 }

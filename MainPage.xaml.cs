@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2012 Sami Hostikka <dev@01.fi>
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,17 +20,22 @@ namespace network_toolkit
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        #region Initialize
         public MainPage()
         {
             InitializeComponent();
 
-            // Set the data context of the listbox control to the sample data
             DataContext = App.ViewModel;
-            this.Loaded += new RoutedEventHandler(MainPage_Loaded);
+            this.Loaded += new RoutedEventHandler(mainPage_Loaded);
 
             DeviceNetworkInformation.NetworkAvailabilityChanged +=new EventHandler<NetworkNotificationEventArgs>(networkInfo_NetworkAvailabilityChanged);
         }
+        #endregion
 
+        #region Etc
+        /// <summary>
+        /// Gets network information and sets it to network panoramaItem.
+        /// </summary>
         private void getNetworkInfo()
         {
             carrier.Text = DeviceNetworkInformation.CellularMobileOperator.ToLower();
@@ -37,16 +43,20 @@ namespace network_toolkit
             cellularDataEnabled.Text = DeviceNetworkInformation.IsCellularDataEnabled.ToString().ToLower();
             wifiEnabled.Text = DeviceNetworkInformation.IsWiFiEnabled.ToString().ToLower();
         }
+        #endregion
 
         #region Events
         /// <summary>
-        /// Load data for the ViewModel Items.
+        /// Load data for the ViewModel Items and set settings if first run.
         /// </summary>
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private void mainPage_Loaded(object sender, RoutedEventArgs e)
         {
             if (!App.ViewModel.IsDataLoaded)
+                App.ViewModel.LoadData();
+            if ((Application.Current as App).isFirstRun)
             {
-                App.loadData();
+                (Application.Current as App).isFirstRun = false;
+                NavigationService.Navigate(new Uri("/settings.xaml", UriKind.Relative));
             }
         }
 
@@ -57,60 +67,104 @@ namespace network_toolkit
         }
 
         /// <summary>
-        /// Handle selection changed on ListBox
+        /// Handle selection changed on ListBox.
         /// </summary>
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListBox listbox = (sender as ListBox);
-            // If selected index is -1 (no selection) do nothing
-            if (listbox.SelectedIndex == -1)
-                return;
+            try
+            {
+                ListBox listbox = (sender as ListBox);
+                // If selected index is -1 (no selection) do nothing
+                if (listbox.SelectedIndex == -1)
+                    return;
 
-            Menu menu = listbox.SelectedItem as Menu;
-            MessageBox.Show(menu.Url);
-            // Navigate to the new page
-            //NavigationService.Navigate(new Uri("/DetailsPage.xaml", UriKind.Relative));
+                Menu menu = listbox.SelectedItem as Menu;
+                MessageBox.Show(menu.Url);
+                // Navigate to the new page
+                //NavigationService.Navigate(new Uri("/DetailsPage.xaml", UriKind.Relative));
 
-            // Reset selected index to -1 (no selection)
-            listbox.SelectedIndex = -1;
+                // Reset selected index to -1 (no selection)
+                listbox.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
+        /// <summary>
+        /// When navigated to page, gets settings and network information.
+        /// </summary>
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if ((Application.Current as App).isFirstRun)
-            {
-                (Application.Current as App).isFirstRun = false;
-                NavigationService.Navigate(new Uri("/settings.xaml", UriKind.Relative));
-            }
+
             panorama.DefaultItem = panorama.Items[(Application.Current as App).homescreen];
             getNetworkInfo();
         }
 
-        private void wifi_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Opens connection settings
+        /// </summary>
+        private void setting_Click(object sender, RoutedEventArgs e)
         {
-            ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
-            connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
-            connectionSettingsTask.Show();
+            try
+            {
+                Button button = sender as Button;
+                if (button != null)
+                {
+                    ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
+                    if (button.Content.ToString().StartsWith("wifi"))
+                        connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.WiFi;
+                    else
+                        connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.Cellular;
+                    connectionSettingsTask.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+            }
         }
 
-        private void cellular_Click(object sender, RoutedEventArgs e)
-        {
-            ConnectionSettingsTask connectionSettingsTask = new ConnectionSettingsTask();
-            connectionSettingsTask.ConnectionSettingsType = ConnectionSettingsType.Cellular;
-            connectionSettingsTask.Show();
-        }
-
+        /// <summary>
+        /// When a network changes, updates network information.
+        /// </summary>
         private void networkInfo_NetworkAvailabilityChanged(object sender, NetworkNotificationEventArgs e)
         {
             getNetworkInfo();
         }
 
+        /// <summary>
+        /// Navigates to selected page.
+        /// </summary>
         private void applicationBarMenuItem_Click(object sender, EventArgs e)
         {
-            ApplicationBarMenuItem applicationBarMenuItem = sender as ApplicationBarMenuItem;
-            if(applicationBarMenuItem != null)
-                NavigationService.Navigate(new Uri("/" + applicationBarMenuItem.Text.ToLower() + ".xaml", UriKind.Relative));
+            try
+            {
+                ApplicationBarMenuItem applicationBarMenuItem = sender as ApplicationBarMenuItem;
+                if (applicationBarMenuItem != null)
+                {
+                    string uri = "";
+                    switch (applicationBarMenuItem.Text)
+                    {
+                        case "Help":
+                            uri = "help";
+                            break;
+                        case "Settings":
+                            //TODO
+                            App.ViewModel.addToFavorites("help", "/help.xaml");
+                            uri = "settings";
+                            break;
+                        default:
+                            MessageBox.Show("Sorry, page not found");
+                            break;
+                    }
+                    if (!uri.Equals(""))
+                        NavigationService.Navigate(new Uri("/" + uri + ".xaml", UriKind.Relative));
+                }
+            }
+            catch (Exception ex)
+            {
+            }
         }
         #endregion
     }
