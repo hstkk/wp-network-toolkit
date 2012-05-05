@@ -29,9 +29,7 @@
                     <ListBox ItemsSource="{Binding FavoriteItems}"
                              ItemTemplate="{StaticResource FavoriteItem}"
                              SelectionChanged="listBox_SelectionChanged">
-                        <toolkit:WrapPanel Orientation="Horizontal">
                             <ListBoxItem Content="{Binding Title}"/>
-                        </toolkit:WrapPanel>
                     </ListBox>
                     <TextBlock Text="Tap and hold the tool you want to pin, then tap Pin to Favorites."
                                TextWrapping="Wrap"

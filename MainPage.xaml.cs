@@ -79,9 +79,9 @@ namespace network_toolkit
                     return;
 
                 Menu menu = listbox.SelectedItem as Menu;
-                MessageBox.Show(menu.Url);
-                // Navigate to the new page
-                //NavigationService.Navigate(new Uri("/DetailsPage.xaml", UriKind.Relative));
+                if(menu != null)
+                    // Navigate to the new page
+                    NavigationService.Navigate(new Uri(menu.Url, UriKind.Relative));
 
                 // Reset selected index to -1 (no selection)
                 listbox.SelectedIndex = -1;

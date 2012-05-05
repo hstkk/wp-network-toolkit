@@ -12,7 +12,8 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -21,36 +22,68 @@
             <!--subnet calculator-->
             <controls:PivotItem Header="subnet">
                 <StackPanel>
-                    
+                    <TextBlock Text="Network"/>
+                    <TextBox/>
+                    <TextBlock Text="Prefix"/>
+                    <toolkit:LoopingSelector/>
+                    <TextBlock Text="Hosts"/>
+                    <TextBlock Text="254"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="Broadcast"/>
+                    <TextBlock Text="192.168.10.255"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="First host"/>
+                    <TextBlock Text="192.168.10.0"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="Last host"/>
+                    <TextBlock Text="192.168.10.0"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
+                    <TextBlock Text="Wildcard"/>
+                    <TextBlock Text="0.0.0.255 /8"
+                               Style="{StaticResource PhoneTextLargeStyle}"/>
                 </StackPanel>
             </controls:PivotItem>
 
             <!--VLSM calculator-->
             <controls:PivotItem Header="vlsm">
-                <StackPanel>
-
-                </StackPanel>
+                <ScrollViewer Width="607">
+                    <StackPanel>
+                        <TextBlock Text="Network"/>
+                        <TextBox/>
+                        <TextBlock Text="Prefix"/>
+                        <toolkit:LoopingSelector/>
+                        <TextBlock Text="Subnets"/>
+                        <TextBox/>
+                        <TextBlock Text="Subnet 1"
+                                   Style="{StaticResource PhoneTextLargeStyle}"/>
+                        <TextBlock Text="Hosts needed"/>
+                        <TextBox/>
+                        
+                    </StackPanel>
+                </ScrollViewer>
             </controls:PivotItem>
 
             <!--wildcard calculator-->
             <controls:PivotItem Header="wildcard">
                 <StackPanel>
+                    <TextBlock Text="Subnet mask"/>
+                    <TextBox Name="wildcardSubnet"
+                             InputScope="Digits"/>
+                    <TextBlock Text="Wildcard"/>
+                    <TextBlock Style="{StaticResource PhoneTextLargeStyle}"
+                               Text="255.255.255.255"/>
+                </StackPanel>
+            </controls:PivotItem>
 
+            <!--prefix calculator-->
+            <controls:PivotItem Header="prefix">
+                <StackPanel>
+                    <TextBlock Text="Subnet mask"/>
+                    <TextBox InputScope="Digits"/>
+                    <TextBlock Text="Prefix"/>
+                    <toolkit:LoopingSelector/>
                 </StackPanel>
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>
-
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton x:Name="appbar_button1" IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton x:Name="appbar_button2" IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="menuItem1" Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem x:Name="menuItem2" Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
-    
 </phone:PhoneApplicationPage>
