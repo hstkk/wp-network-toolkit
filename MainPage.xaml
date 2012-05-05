@@ -27,9 +27,34 @@
             <controls:PanoramaItem Header="favorites">
                 <StackPanel Margin="0,0,-12,0">
                     <ListBox ItemsSource="{Binding FavoriteItems}"
-                             ItemTemplate="{StaticResource FavoriteItem}"
-                             SelectionChanged="listBox_SelectionChanged">
-                            <ListBoxItem Content="{Binding Title}"/>
+                             SelectionChanged="listBox_SelectionChanged"
+                             Name="favorites"
+                             ItemsPanel="{StaticResource wrap}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="173"
+                                      Height="173"
+                                      Margin="12,12,0,0"
+                                      Background="{StaticResource PhoneAccentBrush}"
+                                      toolkit:TiltEffect.IsTiltEnabled="True">
+                                    <TextBlock Text="{Binding Title}"
+                                               Style="{StaticResource PhoneTextLargeStyle}"
+                                               Foreground="White"
+                                               Margin="12,12,12,12"
+                                               TextWrapping="Wrap">
+                                        <toolkit:ContextMenuService.ContextMenu>
+                                            <toolkit:ContextMenu>
+                                                <toolkit:MenuItem Header="Un pin"
+                                                                  Click="favoriteContextMenu_Click"/>
+                                                </toolkit:ContextMenu>
+                                        </toolkit:ContextMenuService.ContextMenu>
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+<!--                        <ListBox.ItemsPanel>
+                            <toolkit:WrapPanel/>
+                        </ListBox.ItemsPanel>-->
                     </ListBox>
                     <TextBlock Text="Tap and hold the tool you want to pin, then tap Pin to Favorites."
                                TextWrapping="Wrap"
@@ -41,16 +66,26 @@
             <controls:PanoramaItem Header="tools">
                 <ListBox Margin="0,0,-12,0"
                          ItemsSource="{Binding MenuItems}"
-                         ItemTemplate="{StaticResource MenuItem}"
                          SelectionChanged="listBox_SelectionChanged">
-                    <ListBoxItem Content="{Binding Title}"
-                                 Tag="{Binding Url}">
-                        <toolkit:ContextMenuService.ContextMenu>
-                            <toolkit:ContextMenu>
-                                <toolkit:MenuItem Header="Un pin"/>
-                            </toolkit:ContextMenu>
-                        </toolkit:ContextMenuService.ContextMenu>
-                    </ListBoxItem>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}"
+                                           TextWrapping="Wrap"
+                                           Style="{StaticResource PhoneTextExtraLargeStyle}"
+                                           toolkit:TiltEffect.IsTiltEnabled="True">
+                                    <toolkit:ContextMenuService.ContextMenu>
+                                        <toolkit:ContextMenu>
+                                            <toolkit:MenuItem Header="Pin to start"
+                                                              Click="toolContextMenu_Click"/>
+                                            <toolkit:MenuItem Header="Pin to favorites"
+                                                              Click="toolContextMenu_Click"/>
+                                        </toolkit:ContextMenu>
+                                    </toolkit:ContextMenuService.ContextMenu>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
             </controls:PanoramaItem>
  

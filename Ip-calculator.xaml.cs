@@ -13,9 +13,9 @@ using Microsoft.Phone.Controls;
 
 namespace network_toolkit
 {
-    public partial class ip_calculator : PhoneApplicationPage
+    public partial class Ip_calculator : PhoneApplicationPage
     {
-        public ip_calculator()
+        public Ip_calculator()
         {
             InitializeComponent();
         }

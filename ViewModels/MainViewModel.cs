@@ -130,7 +130,16 @@ namespace network_toolkit.ViewModels
         public void addToFavorites(string title, string url)
         {
             if (!title.Equals("") && !url.Equals("") && (from m in FavoriteItems where m.Url == url select m).Count() == 0)
-                FavoriteItems.Add(new Menu(title, url));
+                addToFavorites(new Menu(title, url));
+        }
+
+        /// <summary>
+        /// Adds a new favorite item.
+        /// </summary>
+        public void addToFavorites(Menu menu)
+        {
+            if (menu != null && !FavoriteItems.Contains(menu))
+                FavoriteItems.Add(menu);
         }
 
         /// <summary>

@@ -60,12 +60,6 @@ namespace network_toolkit
             }
         }
 
-        private void contextMenu_Click(object sender, SelectionChangedEventArgs e)
-        {
-            //ContextMenu contextMenu = (sender as ContextMenu);
-            //MessageBox.Show(contextMenu.);
-        }
-
         /// <summary>
         /// Handle selection changed on ListBox.
         /// </summary>
@@ -167,5 +161,35 @@ namespace network_toolkit
             }
         }
         #endregion
+
+        private void favoriteContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            try 
+	        {
+                MenuItem menuItem = sender as MenuItem;
+                if (menuItem != null)
+                    App.ViewModel.deleteFromFavorites(menuItem.DataContext as Menu);
+	        }
+	        catch (Exception ex)
+	        {
+	        }
+        }
+
+        private void toolContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MenuItem menuItem = sender as MenuItem;
+                if (menuItem != null)
+                {
+                    Menu menu = menuItem.DataContext as Menu;
+                    if(menuItem.Header.Equals("Pin to favorites"))
+                        App.ViewModel.addToFavorites(menu);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
     }
 }
