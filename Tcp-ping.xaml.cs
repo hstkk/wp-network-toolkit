@@ -18,18 +18,36 @@ namespace network_toolkit
 {
     public partial class Tcp_ping : PhoneApplicationPage
     {
-        bool hostGotFocus = false, portGotFocus = false, hostValid = false, portValid = false;
+        bool hostGotFocus = false, portGotFocus = false;
         public Tcp_ping()
         {
             InitializeComponent();
         }
 
         private void enablePing(){
-            if (hostValid && portValid)
+            if (validatePort() && validateHost())
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             else
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
         }
+
+        private bool validatePort(){
+            int i = 0;
+            if (int.TryParse(port.Text, out i) && i > 0 && i <= 65535)
+                return true;
+            MessageBox.Show("Port number is not valid, use ports 1 to 65535");
+            return false;
+        }
+
+        private bool validateHost()
+        {
+            // http://stackoverflow.com/a/106223
+            if (Regex.IsMatch(host.Text, @"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$") || Regex.IsMatch(host.Text, @"^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$"))
+                return true;
+             return false;
+        }
+
+
 
         private void host_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -40,11 +58,6 @@ namespace network_toolkit
         {
             if (hostGotFocus)
             {
-                // http://stackoverflow.com/a/106223
-                if (Regex.IsMatch(host.Text, @"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$") || Regex.IsMatch(host.Text, @"^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$"))
-                    hostValid = true;
-                else
-                    hostValid = false;
                 enablePing();
             }
         }
@@ -58,32 +71,29 @@ namespace network_toolkit
         {
             if (portGotFocus)
             {
-                int i = 0;
-                if (int.TryParse(port.Text, out i) && i > 0 && i <= 65535)
-                    portValid = true;
-                else
-                {
-                    portValid = false;
-                    MessageBox.Show("Port number is not valid, use ports 1 to 65535");
-                }
                 enablePing();
             }
         }
 
         private void ping_Click(object sender, EventArgs e)
         {
-            resultText.Visibility = System.Windows.Visibility.Visible;
-            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
-            (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
-            performanceProgressBar.IsIndeterminate = true;
-            using (TcpPing tcpPing = new TcpPing())
+            if (validatePort() && validateHost())
             {
-                int i = 0;
-                int.TryParse(port.Text, out i);
-                result.Text = tcpPing.connect(host.Text, i);
+                resultText.Visibility = System.Windows.Visibility.Visible;
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+                performanceProgressBar.IsIndeterminate = true;
+                using (TcpPing tcpPing = new TcpPing())
+                {
+                    int i = 0;
+                    int.TryParse(port.Text, out i);
+                    result.Text = tcpPing.connect(host.Text, i);
+                }
+                performanceProgressBar.IsIndeterminate = false;
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             }
-            performanceProgressBar.IsIndeterminate = false;
-            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            else
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
         }
 
         private void email_Click(object sender, EventArgs e)
