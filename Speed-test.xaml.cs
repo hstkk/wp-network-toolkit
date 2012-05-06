@@ -18,12 +18,16 @@ namespace network_toolkit
 {
     public partial class Speed_test : PhoneApplicationPage
     {
+        WebClient webClient;
         bool textfieldGotFocus = false;
         bool firstDownloadProgressChanged;
         long size;
         public Speed_test()
         {
             InitializeComponent();
+            webClient = new WebClient();
+            webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(downloadCompleted);
+            webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(downloadProgressChanged);
         }
 
         private void pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -47,9 +51,6 @@ namespace network_toolkit
                 {
                     firstDownloadProgressChanged = true;
                     size = 0;
-                    WebClient webClient = new WebClient();
-                    webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(downloadCompleted);
-                    webClient.DownloadProgressChanged +=new DownloadProgressChangedEventHandler(downloadProgressChanged);
                     webClient.OpenReadAsync(new Uri(testFile.Text, UriKind.Absolute), Environment.TickCount);
                 }
                 catch (Exception ex)
@@ -65,16 +66,25 @@ namespace network_toolkit
         private void downloadCompleted(object sender, OpenReadCompletedEventArgs e)
         {
             double end = Environment.TickCount;
-            try{
-                double start;
-                if (double.TryParse(e.UserState.ToString(), out start))
+            if (size < 5000000)
+            {
+                try
                 {
-                    download.Visibility = System.Windows.Visibility.Visible;
-                    speed.Text = (size / 1000000 / ((end - start) / 1000)).ToString("0.00") + " Mbps";
+                    double start;
+                    if (double.TryParse(e.UserState.ToString(), out start))
+                    {
+                        download.Visibility = System.Windows.Visibility.Visible;
+                        speed.Text = (size / 1000000 / ((end - start) / 1000)).ToString("0.00") + " Mbps";
+                    }
+                }
+                catch (Exception ex)
+                {
                 }
             }
-            catch (Exception ex)
+            else
             {
+                speed.Text = "";
+                download.Visibility = System.Windows.Visibility.Collapsed;
             }
             progressBar.Visibility = System.Windows.Visibility.Collapsed;
             (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
@@ -85,7 +95,21 @@ namespace network_toolkit
         {
             progressBar.Value = e.ProgressPercentage;
             if (firstDownloadProgressChanged)
+            {
+                firstDownloadProgressChanged = false;
                 size = e.TotalBytesToReceive;
+                if (size > 5000000)
+                {
+                    try
+                    {
+                        webClient.CancelAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    MessageBox.Show("Test file is too big!");
+                }
+            }
         }
 
         private void testFile_LostFocus(object sender, RoutedEventArgs e)
