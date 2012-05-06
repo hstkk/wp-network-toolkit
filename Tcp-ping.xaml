@@ -43,7 +43,8 @@
                        Name="resultText"
                        Visibility="Collapsed"/>
             <TextBlock Name="result"
-                       Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+                       Style="{StaticResource PhoneTextExtraLargeStyle}"
+                       TextWrapping="Wrap"/>
         </StackPanel>
     </Grid>
  

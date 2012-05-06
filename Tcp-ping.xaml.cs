@@ -35,7 +35,8 @@ namespace network_toolkit
             int i = 0;
             if (int.TryParse(port.Text, out i) && i > 0 && i <= 65535)
                 return true;
-            MessageBox.Show("Port number is not valid, use ports 1 to 65535");
+            else if (portGotFocus)
+                MessageBox.Show("Port number is not valid, use ports 1 to 65535");
             return false;
         }
 
