@@ -63,7 +63,6 @@ namespace network_toolkit.ViewModels
             deserialize(favorites);
 
             this.MenuItems.Add(new Menu("ip calculator", "/Ip-calculator.xaml"));
-            this.MenuItems.Add(new Menu("port knocker", "/port-knocker/browse.xaml"));
             this.MenuItems.Add(new Menu("port scanner", "/port-scanner.xaml"));
             this.MenuItems.Add(new Menu("speed-test", "/speed-test.xaml"));
             this.MenuItems.Add(new Menu("tcp ping", "/tcp-ping.xaml"));
