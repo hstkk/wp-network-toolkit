@@ -73,13 +73,17 @@ namespace network_toolkit
         private void ping_Click(object sender, EventArgs e)
         {
             resultText.Visibility = System.Windows.Visibility.Visible;
+            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
             (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
+            performanceProgressBar.IsIndeterminate = false;
             using (TcpPing tcpPing = new TcpPing())
             {
                 int i = 0;
                 int.TryParse(port.Text, out i);
                 result.Text = tcpPing.connect(host.Text, i);
             }
+            performanceProgressBar.IsIndeterminate = true;
+            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
         }
 
         private void email_Click(object sender, EventArgs e)
