@@ -24,13 +24,12 @@
             <!--speed test-->
             <controls:PivotItem Header="test">
                 <StackPanel>
-                    <TextBlock Text="File"/>
-                    <toolkit:ListPicker Name="listPicker">
-                        <toolkit:ListPickerItem Content="10MB test file"
-                                                Tag="http://cachefly.cachefly.net/10mb.test"/>
-                        <toolkit:ListPickerItem Content="100MB test file"
-                                                Tag="http://cachefly.cachefly.net/100mb.test"/>
-                    </toolkit:ListPicker>
+                    <TextBlock Text="Test file"/>
+                    <TextBox Name="testFile"
+                             Text="http://cachefly.cachefly.net/10mb.test"
+                             InputScope="Url"
+                             LostFocus="testFile_LostFocus"
+                             GotFocus="testFile_GotFocus"/>
                     <toolkit:PerformanceProgressBar x:Name="performanceProgressBar"
                                                     IsIndeterminate="False"/>
                     <TextBlock Name="err"
@@ -53,9 +52,8 @@
         <shell:ApplicationBar IsVisible="True"
                               IsMenuEnabled="False">
             <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png"
-                                            Text="Test"
-                                            Click="test_Click"
-                                            x:Name="applicationBarIconButton"/>
+                                            Text="Download"
+                                            Click="download_Click"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     

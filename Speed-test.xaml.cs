@@ -10,11 +10,14 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
+using System.Text.RegularExpressions;
 
 namespace network_toolkit
 {
     public partial class Speed_test : PhoneApplicationPage
     {
+        bool textfieldGotFocus = false;
         public Speed_test()
         {
             InitializeComponent();
@@ -28,23 +31,26 @@ namespace network_toolkit
                 ApplicationBar.IsVisible = false;
         }
 
-        private void test_Click(object sender, EventArgs e)
+        private void download_Click(object sender, EventArgs e)
         {
             if (!performanceProgressBar.IsIndeterminate)
             {
                 performanceProgressBar.IsIndeterminate = true;
-                applicationBarIconButton.IsEnabled = false;
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                testFile.IsEnabled = false;
                 try
                 {
                     WebClient webClient = new WebClient();
                     webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(downloadCompleted);
-                    webClient.DownloadStringAsync(new Uri((listPicker.SelectedItem as ListPickerItem).Tag.ToString()));
+                    webClient.DownloadStringAsync(new Uri(testFile.Text, UriKind.Absolute));
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show(ex.ToString());
                     err.Visibility = System.Windows.Visibility.Visible;
                     performanceProgressBar.IsIndeterminate = false;
-                    applicationBarIconButton.IsEnabled = true;
+                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                    testFile.IsEnabled = true;
                 }
             }
         }
@@ -57,13 +63,35 @@ namespace network_toolkit
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 err.Visibility = System.Windows.Visibility.Visible;
             }
             finally
             {
                 performanceProgressBar.IsIndeterminate = false;
-                applicationBarIconButton.IsEnabled = true;
+                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+                testFile.IsEnabled = true;
             }
+        }
+
+        private void testFile_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (textfieldGotFocus)
+            {
+                MessageBox.Show("kk");
+                if (!Regex.IsMatch(testFile.Text, @"(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?"))
+                {
+                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                    MessageBox.Show("URL is not valid");
+                }
+                else if (!performanceProgressBar.IsIndeterminate)
+                    (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            }
+        }
+
+        private void testFile_GotFocus(object sender, RoutedEventArgs e)
+        {
+            textfieldGotFocus = true;
         }
     }
 }
