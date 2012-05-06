@@ -66,7 +66,6 @@ namespace network_toolkit.ViewModels
             this.MenuItems.Add(new Menu("ip calculator", "/Ip-calculator.xaml"));
             this.MenuItems.Add(new Menu("port scanner", "/port-scanner.xaml"));
             this.MenuItems.Add(new Menu("speed test", "/speed-test.xaml"));
-            this.MenuItems.Add(new Menu("subnet scan", "/subnet-scan.xaml"));
             this.MenuItems.Add(new Menu("tcp ping", "/tcp-ping.xaml"));
             this.MenuItems.Add(new Menu("whois lookup", "/whois-lookup.xaml"));
             this.IsDataLoaded = true;

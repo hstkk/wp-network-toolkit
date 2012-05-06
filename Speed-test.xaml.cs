@@ -12,12 +12,15 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace network_toolkit
 {
     public partial class Speed_test : PhoneApplicationPage
     {
         bool textfieldGotFocus = false;
+        bool firstDownloadProgressChanged;
+        long size;
         public Speed_test()
         {
             InitializeComponent();
@@ -33,58 +36,68 @@ namespace network_toolkit
 
         private void download_Click(object sender, EventArgs e)
         {
-            if (!performanceProgressBar.IsIndeterminate)
+            if ((ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled)
             {
-                performanceProgressBar.IsIndeterminate = true;
+                progressBar.Value = 0;
+                progressBar.Visibility = System.Windows.Visibility.Visible;
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
+                err.Visibility = System.Windows.Visibility.Collapsed;
                 testFile.IsEnabled = false;
                 try
                 {
+                    firstDownloadProgressChanged = true;
+                    size = 0;
                     WebClient webClient = new WebClient();
-                    webClient.DownloadStringCompleted += new DownloadStringCompletedEventHandler(downloadCompleted);
-                    webClient.DownloadStringAsync(new Uri(testFile.Text, UriKind.Absolute));
+                    webClient.OpenReadCompleted += new OpenReadCompletedEventHandler(downloadCompleted);
+                    webClient.DownloadProgressChanged +=new DownloadProgressChangedEventHandler(downloadProgressChanged);
+                    webClient.OpenReadAsync(new Uri(testFile.Text, UriKind.Absolute), Environment.TickCount);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.ToString());
                     err.Visibility = System.Windows.Visibility.Visible;
-                    performanceProgressBar.IsIndeterminate = false;
+                    progressBar.Visibility = System.Windows.Visibility.Collapsed;
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
                     testFile.IsEnabled = true;
                 }
             }
         }
 
-        private void downloadCompleted(object sender, DownloadStringCompletedEventArgs e)
+        private void downloadCompleted(object sender, OpenReadCompletedEventArgs e)
         {
-            try
-            {
-                MessageBox.Show(e.Result.ToString());
+            double end = Environment.TickCount;
+            try{
+                double start;
+                if (double.TryParse(e.UserState.ToString(), out start))
+                {
+                    download.Visibility = System.Windows.Visibility.Collapsed;
+                    speed.Text = (size / 1000000 / ((end - start) / 1000)).ToString("0.00") + " Mbps";
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
-                err.Visibility = System.Windows.Visibility.Visible;
             }
-            finally
-            {
-                performanceProgressBar.IsIndeterminate = false;
-                (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
-                testFile.IsEnabled = true;
-            }
+            progressBar.Visibility = System.Windows.Visibility.Collapsed;
+            (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
+            testFile.IsEnabled = true;
+        }
+
+        private void downloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            progressBar.Value = e.ProgressPercentage;
+            if (firstDownloadProgressChanged)
+                size = e.TotalBytesToReceive;
         }
 
         private void testFile_LostFocus(object sender, RoutedEventArgs e)
         {
             if (textfieldGotFocus)
             {
-                MessageBox.Show("kk");
                 if (!Regex.IsMatch(testFile.Text, @"(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?"))
                 {
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                     MessageBox.Show("URL is not valid");
                 }
-                else if (!performanceProgressBar.IsIndeterminate)
+                else
                     (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             }
         }

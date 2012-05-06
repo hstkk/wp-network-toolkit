@@ -26,16 +26,21 @@
                 <StackPanel>
                     <TextBlock Text="Test file"/>
                     <TextBox Name="testFile"
-                             Text="http://cachefly.cachefly.net/10mb.test"
+                             Text="http://speedtest.pit.hel.nebula.fi/speedtest/random1500x1500.jpg"
                              InputScope="Url"
                              LostFocus="testFile_LostFocus"
                              GotFocus="testFile_GotFocus"/>
-                    <toolkit:PerformanceProgressBar x:Name="performanceProgressBar"
-                                                    IsIndeterminate="False"/>
+                    <ProgressBar Visibility="Collapsed"
+                                 Name="progressBar"/>
                     <TextBlock Name="err"
                            Text="Can't download test file from internet!"
                            Style="{StaticResource PhoneTextLargeStyle}"
                            Visibility="Collapsed"/>
+                    <TextBlock Text="Download"
+                               Visibility="Collapsed"
+                               Name="download"/>
+                    <TextBlock Name="speed"
+                               Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                 </StackPanel>
             </controls:PivotItem>
 
