@@ -53,11 +53,11 @@
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="system.data.linq" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="mscorlib.extensions" />
   </ItemGroup>
@@ -93,6 +93,7 @@
     <Compile Include="Speed-test.xaml.cs">
       <DependentUpon>Speed-test.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TcpPing.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Menu.cs" />
     <Page Include="Settings.xaml">
