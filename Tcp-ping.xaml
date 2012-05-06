@@ -37,7 +37,7 @@
                      InputScope="Digits"
                      GotFocus="port_GotFocus"
                      LostFocus="port_LostFocus"/>
-            <toolkit:PerformanceProgressBar IsIndeterminate="True"
+            <toolkit:PerformanceProgressBar IsIndeterminate="False"
                                             Name="performanceProgressBar"/>
             <TextBlock Text="Result"
                        Name="resultText"

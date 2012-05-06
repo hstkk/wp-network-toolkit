@@ -75,14 +75,14 @@ namespace network_toolkit
             resultText.Visibility = System.Windows.Visibility.Visible;
             (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
             (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
-            performanceProgressBar.IsIndeterminate = false;
+            performanceProgressBar.IsIndeterminate = true;
             using (TcpPing tcpPing = new TcpPing())
             {
                 int i = 0;
                 int.TryParse(port.Text, out i);
                 result.Text = tcpPing.connect(host.Text, i);
             }
-            performanceProgressBar.IsIndeterminate = true;
+            performanceProgressBar.IsIndeterminate = false;
             (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
         }
 
