@@ -62,9 +62,11 @@ namespace network_toolkit.ViewModels
             settings.TryGetValue<string>("favorites", out favorites);
             deserialize(favorites);
 
+            this.MenuItems.Add(new Menu("dns lookup", "/dns-lookup.xaml"));
             this.MenuItems.Add(new Menu("ip calculator", "/Ip-calculator.xaml"));
             this.MenuItems.Add(new Menu("port scanner", "/port-scanner.xaml"));
-            this.MenuItems.Add(new Menu("speed-test", "/speed-test.xaml"));
+            this.MenuItems.Add(new Menu("speed test", "/speed-test.xaml"));
+            this.MenuItems.Add(new Menu("subnet scan", "/subnet-scan.xaml"));
             this.MenuItems.Add(new Menu("tcp ping", "/tcp-ping.xaml"));
             this.MenuItems.Add(new Menu("whois lookup", "/whois-lookup.xaml"));
             this.IsDataLoaded = true;
@@ -128,7 +130,7 @@ namespace network_toolkit.ViewModels
         /// <param name="url">Favorite url</param>
         public void addToFavorites(string title, string url)
         {
-            if (!title.Equals("") && !url.Equals("") && (from m in FavoriteItems where m.Url == url select m).Count() == 0)
+            if (!title.Equals("") && !url.Equals("") && (from m in FavoriteItems where m.Url.ToString().Equals(url) select m).Count() == 0)
                 addToFavorites(new Menu(title, url));
         }
 

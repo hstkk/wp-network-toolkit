@@ -43,6 +43,21 @@ namespace network_toolkit
             cellularDataEnabled.Text = DeviceNetworkInformation.IsCellularDataEnabled.ToString().ToLower();
             wifiEnabled.Text = DeviceNetworkInformation.IsWiFiEnabled.ToString().ToLower();
         }
+
+        private void addTile(Menu menu)
+        {
+            if (menu != null && !menu.Title.Equals("") && !menu.Url.Equals("")){
+                ShellTile shellTile = ShellTile.ActiveTiles.FirstOrDefault(tile => tile.NavigationUri.Equals(menu.Url));
+                if (shellTile == null)
+                {
+                    StandardTileData standardTileData = new StandardTileData();
+                    standardTileData.Title = "Network toolkit";
+                    standardTileData.BackTitle = "Network toolkit";
+                    standardTileData.BackContent = menu.Title;
+                    ShellTile.Create(menu.Url, standardTileData);
+                }
+            }
+        }
         #endregion
 
         #region Events
@@ -75,7 +90,7 @@ namespace network_toolkit
                 Menu menu = listbox.SelectedItem as Menu;
                 if(menu != null)
                     // Navigate to the new page
-                    NavigationService.Navigate(new Uri(menu.Url, UriKind.Relative));
+                    NavigationService.Navigate(menu.Url);
 
                 // Reset selected index to -1 (no selection)
                 listbox.SelectedIndex = -1;
@@ -144,8 +159,6 @@ namespace network_toolkit
                             uri = "help";
                             break;
                         case "Settings":
-                            //TODO
-                            App.ViewModel.addToFavorites("help", "/help.xaml");
                             uri = "settings";
                             break;
                         default:
@@ -160,7 +173,6 @@ namespace network_toolkit
             {
             }
         }
-        #endregion
 
         private void favoriteContextMenu_Click(object sender, RoutedEventArgs e)
         {
@@ -183,13 +195,16 @@ namespace network_toolkit
                 if (menuItem != null)
                 {
                     Menu menu = menuItem.DataContext as Menu;
-                    if(menuItem.Header.Equals("Pin to favorites"))
+                    if (menuItem.Header.Equals("Pin to favorites"))
                         App.ViewModel.addToFavorites(menu);
+                    else if (menuItem.Header.Equals("Pin to start"))
+                        addTile(menu);
                 }
             }
             catch (Exception ex)
             {
             }
         }
+        #endregion
     }
 }

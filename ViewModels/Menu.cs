@@ -20,12 +20,12 @@ namespace network_toolkit.ViewModels
         [DataMember]
         public string Title { get; set; }
         [DataMember]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         public Menu(string Title, string Url)
         {
             this.Title = Title;
-            this.Url = Url;
+            this.Url = new Uri(Url, UriKind.Relative);
         }
         #endregion
     }
