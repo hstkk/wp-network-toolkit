@@ -69,7 +69,7 @@ namespace network_toolkit
                 double start;
                 if (double.TryParse(e.UserState.ToString(), out start))
                 {
-                    download.Visibility = System.Windows.Visibility.Collapsed;
+                    download.Visibility = System.Windows.Visibility.Visible;
                     speed.Text = (size / 1000000 / ((end - start) / 1000)).ToString("0.00") + " Mbps";
                 }
             }
