@@ -15,10 +15,10 @@ using Microsoft.Phone.Shell;
 
 namespace network_toolkit
 {
-    public partial class settings : PhoneApplicationPage
+    public partial class Settings : PhoneApplicationPage
     {
         #region Initialize
-        public settings()
+        public Settings()
         {
             InitializeComponent();
 

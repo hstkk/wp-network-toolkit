@@ -1,0 +1,62 @@
+﻿<phone:PhoneApplicationPage 
+    x:Class="network_toolkit.Speed_test"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <!--Pivot Control-->
+        <controls:Pivot Title="SPEED TEST"
+                        SelectionChanged="pivot_SelectionChanged"
+                        Name="pivot">
+            <!--speed test-->
+            <controls:PivotItem Header="test">
+                <StackPanel>
+                    <TextBlock Text="File"/>
+                    <toolkit:ListPicker Name="listPicker">
+                        <toolkit:ListPickerItem Content="10MB test file"
+                                                Tag="http://cachefly.cachefly.net/10mb.test"/>
+                        <toolkit:ListPickerItem Content="100MB test file"
+                                                Tag="http://cachefly.cachefly.net/100mb.test"/>
+                    </toolkit:ListPicker>
+                    <toolkit:PerformanceProgressBar x:Name="performanceProgressBar"
+                                                    IsIndeterminate="False"/>
+                    <TextBlock Name="err"
+                           Text="Can't download test file from internet!"
+                           Style="{StaticResource PhoneTextLargeStyle}"
+                           Visibility="Collapsed"/>
+                </StackPanel>
+            </controls:PivotItem>
+
+            <!--history-->
+            <controls:PivotItem Header="history">
+                <StackPanel>
+
+                </StackPanel>
+            </controls:PivotItem>
+        </controls:Pivot>
+    </Grid>
+
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True"
+                              IsMenuEnabled="False">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png"
+                                            Text="Test"
+                                            Click="test_Click"
+                                            x:Name="applicationBarIconButton"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
+    
+</phone:PhoneApplicationPage>

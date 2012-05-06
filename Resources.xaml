@@ -15,6 +15,10 @@
         <Setter Property="toolkit:TiltEffect.IsTiltEnabled" Value="True"/>
     </Style>
 
+    <Style TargetType="toolkit:ListPicker">
+        <Setter Property="toolkit:TiltEffect.IsTiltEnabled" Value="True"/>
+    </Style>
+
     <Style TargetType="TextBlock"
            x:Key="PhoneTextSmallStyleForeground"
            BasedOn="{StaticResource PhoneTextSmallStyle}">

@@ -71,7 +71,7 @@ namespace network_toolkit
             if ((Application.Current as App).isFirstRun)
             {
                 (Application.Current as App).isFirstRun = false;
-                NavigationService.Navigate(new Uri("/settings.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/Settings.xaml", UriKind.Relative));
             }
         }
 
@@ -156,10 +156,10 @@ namespace network_toolkit
                     switch (applicationBarMenuItem.Text)
                     {
                         case "Help":
-                            uri = "help";
+                            uri = "Help";
                             break;
                         case "Settings":
-                            uri = "settings";
+                            uri = "Settings";
                             break;
                         default:
                             MessageBox.Show("Sorry, page not found");
