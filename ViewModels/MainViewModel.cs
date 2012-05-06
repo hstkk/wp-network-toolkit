@@ -62,12 +62,12 @@ namespace network_toolkit.ViewModels
             settings.TryGetValue<string>("favorites", out favorites);
             deserialize(favorites);
 
-            this.MenuItems.Add(new Menu("dns lookup", "/dns-lookup.xaml"));
+            this.MenuItems.Add(new Menu("dns lookup", "/Dns-lookup.xaml"));
             this.MenuItems.Add(new Menu("ip calculator", "/Ip-calculator.xaml"));
-            this.MenuItems.Add(new Menu("port scanner", "/port-scanner.xaml"));
-            this.MenuItems.Add(new Menu("speed test", "/speed-test.xaml"));
-            this.MenuItems.Add(new Menu("tcp ping", "/tcp-ping.xaml"));
-            this.MenuItems.Add(new Menu("whois lookup", "/whois-lookup.xaml"));
+            this.MenuItems.Add(new Menu("port scanner", "/Port-scanner.xaml"));
+            this.MenuItems.Add(new Menu("speed test", "/Speed-test.xaml"));
+            this.MenuItems.Add(new Menu("tcp ping", "/Tcp-ping.xaml"));
+            this.MenuItems.Add(new Menu("whois lookup", "/Whois.xaml"));
             this.IsDataLoaded = true;
         }
 

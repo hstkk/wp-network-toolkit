@@ -11,10 +11,11 @@ using System.Windows.Shapes;
 using System.Net.Sockets;
 using System.Threading;
 using System.Text;
+using Microsoft.Phone.Net.NetworkInformation;
 
 namespace network_toolkit
 {
-    public class TcpPing
+    public class TcpPing : IDisposable
     {
         Socket socket = null;
         static ManualResetEvent manualResetEvent = new ManualResetEvent(false);
@@ -29,7 +30,7 @@ namespace network_toolkit
         /// <returns></returns>
         public string connect(string host, int port)
         {
-            string result = "";
+            string result = "Can't connect to remote host!";
             try
             {
                 DnsEndPoint dnsEndPoint = new DnsEndPoint(host, port);
@@ -51,50 +52,13 @@ namespace network_toolkit
             catch (Exception e)
             {
             }
-            MessageBox.Show(result);
             return result;
         }
 
         /// <summary>
-        /// Send message to remote host using earlier socket connection.
+        /// Closes socket.
         /// </summary>
-        /// <param name="message">Message to remote host</param>
-        /// <returns></returns>
-        public string send(string message)
-        {
-            string response = "timeout";
-
-            if (socket != null)
-            {
-                try
-                {
-                    SocketAsyncEventArgs socketAsyncEventArgs = new SocketAsyncEventArgs();
-                    socketAsyncEventArgs.RemoteEndPoint = socket.RemoteEndPoint;
-
-                    socketAsyncEventArgs.Completed += new EventHandler<SocketAsyncEventArgs>(delegate(object sender, SocketAsyncEventArgs e)
-                    {
-                        response = e.SocketError.ToString();
-                        manualResetEvent.Set();
-                    });
-
-                    byte[] data = Encoding.UTF8.GetBytes(message);
-                    socketAsyncEventArgs.SetBuffer(data, 0, data.Length);
-
-                    manualResetEvent.Reset();
-                    socket.SendAsync(socketAsyncEventArgs);
-                    manualResetEvent.WaitOne(TIMEOUT);
-                }
-                catch (Exception e)
-                {
-                }
-            }
-            else
-                response = "no socket";
-            MessageBox.Show(response);
-            return response;
-        }
-
-        public void close()
+        public void Dispose()
         {
             if (socket != null)
                 socket.Close();
