@@ -156,18 +156,35 @@ namespace network_toolkit
                     switch (applicationBarMenuItem.Text)
                     {
                         case "Help":
-                            uri = "Help";
+                            uri = "/Help.xaml";
                             break;
                         case "Settings":
-                            uri = "Settings";
+                            uri = "/Settings.xaml";
+                            break;
+                        case "Pin":
+                            uri = "/Help.xaml?page=1";
                             break;
                         default:
                             MessageBox.Show("Sorry, page not found");
                             break;
                     }
                     if (!uri.Equals(""))
-                        NavigationService.Navigate(new Uri("/" + uri + ".xaml", UriKind.Relative));
+                        NavigationService.Navigate(new Uri(uri, UriKind.Relative));
                 }
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        /// <summary>
+        /// Navigates to pin help.
+        /// </summary>
+        private void pin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                NavigationService.Navigate(new Uri("/Help.xaml?page=1", UriKind.Relative));
             }
             catch (Exception ex)
             {
@@ -204,6 +221,14 @@ namespace network_toolkit
             catch (Exception ex)
             {
             }
+        }
+
+        private void panorama_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (panorama.SelectedIndex == 0)
+                ApplicationBar.Mode = ApplicationBarMode.Default;
+            else
+                ApplicationBar.Mode = ApplicationBarMode.Minimized;
         }
         #endregion
     }

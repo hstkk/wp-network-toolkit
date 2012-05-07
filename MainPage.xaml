@@ -18,7 +18,8 @@
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <controls:Panorama Title="network toolkit"
-                           Name="panorama">
+                           Name="panorama"
+                           SelectionChanged="panorama_SelectionChanged">
             <controls:Panorama.Background>
                 <ImageBrush ImageSource="img/panoramaBackground.jpg"/>
             </controls:Panorama.Background>
@@ -29,7 +30,8 @@
                     <ListBox ItemsSource="{Binding FavoriteItems}"
                              SelectionChanged="listBox_SelectionChanged"
                              Name="favorites"
-                             ItemsPanel="{StaticResource wrap}">
+                             ItemsPanel="{StaticResource wrap}"
+                             Height="500">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Grid Width="173"
@@ -52,13 +54,7 @@
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-<!--                        <ListBox.ItemsPanel>
-                            <toolkit:WrapPanel/>
-                        </ListBox.ItemsPanel>-->
                     </ListBox>
-                    <TextBlock Text="Tap and hold the tool you want to pin, then tap Pin to Favorites."
-                               TextWrapping="Wrap"
-                               Style="{StaticResource PhoneTextLargeStyle}"/>
                 </StackPanel>
             </controls:PanoramaItem>
 
@@ -66,7 +62,8 @@
             <controls:PanoramaItem Header="tools">
                 <ListBox Margin="0,0,-12,0"
                          ItemsSource="{Binding MenuItems}"
-                         SelectionChanged="listBox_SelectionChanged">
+                         SelectionChanged="listBox_SelectionChanged"
+                         Height="500">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -123,6 +120,9 @@
                               Mode="Minimized"
                               BackgroundColor="{StaticResource PhoneContrastBackgroundColor}"
                               ForegroundColor="{StaticResource PhoneContrastForegroundColor}">
+            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png"
+                                            Text="Pin"
+                                            Click="pin_Click"/>
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem Text="Settings" Click="applicationBarMenuItem_Click"/>
                 <shell:ApplicationBarMenuItem Text="Help" Click="applicationBarMenuItem_Click"/>

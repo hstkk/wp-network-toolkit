@@ -19,5 +19,15 @@ namespace network_toolkit
         {
             InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            int page;
+            string tmp;
+            if (NavigationContext.QueryString.TryGetValue("page", out tmp) && int.TryParse(tmp, out page))
+                pivot.SelectedIndex = page;
+        }
     }
 }

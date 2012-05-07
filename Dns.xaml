@@ -37,9 +37,11 @@
             <TextBlock Text="Result"
                        Name="resultText"
                        Visibility="Collapsed"/>
-            <TextBlock Name="result"
-                       Style="{StaticResource PhoneTextExtraLargeStyle}"
-                       TextWrapping="Wrap"/>
+            <ScrollViewer Height="430">
+                <TextBlock Name="result"
+                           Style="{StaticResource PhoneTextExtraLargeStyle}"
+                           TextWrapping="Wrap" />
+            </ScrollViewer>
         </StackPanel>
     </Grid>
  
