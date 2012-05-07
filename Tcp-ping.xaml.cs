@@ -13,31 +13,39 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace network_toolkit
 {
     public partial class Tcp_ping : PhoneApplicationPage
     {
-        bool hostGotFocus = false, portGotFocus = false;
         public Tcp_ping()
         {
             InitializeComponent();
         }
 
-        private void enablePing(){
-            if (validatePort() && validateHost())
+        private void enablePing(bool isPort = false)
+        {
+            if (validatePort(isPort) && validateHost())
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             else
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
         }
 
-        private bool validatePort(){
+        private bool validatePort(bool isPort = false){
             int i = 0;
-            if (int.TryParse(port.Text, out i) && i > 0 && i <= 65535)
-                return true;
-            else if (portGotFocus)
-                MessageBox.Show("Port number is not valid, use ports 1 to 65535");
-            return false;
+            bool valid = true;
+            if (port.Text.Equals(""))
+                valid = false;
+            else if (int.TryParse(port.Text, out i) && i < 0 && i > 65535)
+                valid = false;
+            else
+                foreach (string tmp in port.Text.Split(' '))
+                    if (!(int.TryParse(tmp, out i) && i > 0 && i <= 65535))
+                        valid = false;
+            if (isPort && !valid)
+                MessageBox.Show("Port number is not valid, use ports 1 to 65535.");
+            return valid;
         }
 
         private bool validateHost()
@@ -48,34 +56,6 @@ namespace network_toolkit
              return false;
         }
 
-
-
-        private void host_GotFocus(object sender, RoutedEventArgs e)
-        {
-            hostGotFocus = true;
-        }
-
-        private void host_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (hostGotFocus)
-            {
-                enablePing();
-            }
-        }
-
-        private void port_GotFocus(object sender, RoutedEventArgs e)
-        {
-            portGotFocus = true;
-        }
-
-        private void port_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (portGotFocus)
-            {
-                enablePing();
-            }
-        }
-
         private void ping_Click(object sender, EventArgs e)
         {
             if (validatePort() && validateHost())
@@ -84,13 +64,19 @@ namespace network_toolkit
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
                 (ApplicationBar.Buttons[1] as ApplicationBarIconButton).IsEnabled = true;
                 performanceProgressBar.IsIndeterminate = true;
-                using (TcpPing tcpPing = new TcpPing())
+                StringBuilder stringBuilder = new StringBuilder();
+
+                int i;
+                foreach (string tmp in port.Text.Split(' '))
                 {
-                    int i = 0;
-                    int.TryParse(port.Text, out i);
-                    result.Text = tcpPing.connect(host.Text, i);
+                    int.TryParse(tmp, out i);
+                    using (TcpPing tcpPing = new TcpPing())
+                    {
+                        stringBuilder.Append(i + ": " + tcpPing.connect(host.Text, i) + "\n");
+                    }
                 }
                 performanceProgressBar.IsIndeterminate = false;
+                result.Text = stringBuilder.ToString();
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = true;
             }
             else
@@ -107,6 +93,16 @@ namespace network_toolkit
             # else
                 MessageBox.Show("On Windows Phone Emulator, an exception occurs when using the email compose task. Test the email compose task on a physical device.");
             #endif
+        }
+
+        private void port_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            enablePing(true);
+        }
+
+        private void host_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            enablePing();
         }
     }
 }
