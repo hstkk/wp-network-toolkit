@@ -66,6 +66,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Copy of TcpPing.cs" />
+    <Compile Include="Dns.xaml.cs">
+      <DependentUpon>Dns.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,10 @@
     <Compile Include="Whois.xaml.cs">
       <DependentUpon>Whois.xaml</DependentUpon>
     </Compile>
+    <Page Include="Dns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Help.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

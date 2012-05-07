@@ -62,7 +62,7 @@ namespace network_toolkit.ViewModels
             settings.TryGetValue<string>("favorites", out favorites);
             deserialize(favorites);
 
-            this.MenuItems.Add(new Menu("dns lookup", "/Dns-lookup.xaml"));
+            this.MenuItems.Add(new Menu("dns lookup", "/Dns.xaml"));
             this.MenuItems.Add(new Menu("ip calculator", "/Ip-calculator.xaml"));
             this.MenuItems.Add(new Menu("port scanner", "/Port-scanner.xaml"));
             this.MenuItems.Add(new Menu("speed test", "/Speed-test.xaml"));
