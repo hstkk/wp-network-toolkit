@@ -22,6 +22,7 @@ namespace network_toolkit
         {
             InitializeComponent();
 
+            toggleSwitch.IsChecked = (Application.Current as App).isLocationAllowed;
             if ((Application.Current as App).homescreen == 0)
                 favorites.IsChecked = true;
             else
@@ -30,6 +31,25 @@ namespace network_toolkit
         #endregion
 
         #region Events
+        /// <summary>
+        /// When toggleswitch is unchecked updates toggleswitch content and saves state to settings.
+        /// </summary>
+        private void toggleSwitch_Unchecked(object sender, RoutedEventArgs e)
+        {
+            toggleSwitch.Content = "Disallow";
+            (Application.Current as App).isLocationAllowed = false;
+        }
+
+        /// <summary>
+        /// When toggleswitch is checked updates toggleswitch content and saves state to settings.
+        /// </summary>
+        private void toggleSwitch_Checked(object sender, RoutedEventArgs e)
+        {
+            toggleSwitch.Content = "Allow";
+            (Application.Current as App).isLocationAllowed = true;
+        }
+
+
         /// <summary>
         /// Saves selected homescreen to settings.
         /// </summary>

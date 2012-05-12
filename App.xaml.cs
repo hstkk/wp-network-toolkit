@@ -23,6 +23,8 @@ namespace network_toolkit
         //private static string favorites = "";
         public int homescreen;
         private const int homescreenDefault = 1;
+        public bool isLocationAllowed;
+        private const bool isLocationAllowedDefault = false;
         public bool isFirstRun;
         private const bool isFirstRunDefault = true;
 
@@ -143,6 +145,8 @@ namespace network_toolkit
             //settings.TryGetValue<string>("favorites", out favorites);
             if (!settings.TryGetValue<int>("homescreen", out homescreen))
                 homescreen = homescreenDefault;
+            if (!settings.TryGetValue<bool>("isLocationAllowed", out isLocationAllowed))
+                isLocationAllowed = isLocationAllowedDefault;
             if (!settings.TryGetValue<bool>("isFirstRun", out isFirstRun))
                 isFirstRun = isFirstRunDefault;
         }
@@ -153,6 +157,7 @@ namespace network_toolkit
             {
                 IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
                 settings["homescreen"] = homescreen;
+                settings["isLocationAllowed"] = isLocationAllowed;
                 settings["isFirstRun"] = isFirstRun;
                 settings["favorites"] = App.ViewModel.serialize();
                 settings.Save();

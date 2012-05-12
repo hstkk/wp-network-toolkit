@@ -12,7 +12,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d" d:DesignHeight="768" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -39,6 +40,12 @@
                          Tag="1"
                          GroupName="Homescreen"
                          Checked="radioButton_Checked"/>
+            <TextBlock Text="Allow the network toolkit to access your location?"
+                       TextWrapping="Wrap"/>
+            <toolkit:ToggleSwitch Name="toggleSwitch"
+                                  Content="Disallow"
+                                  Unchecked="toggleSwitch_Unchecked"
+                                  Checked="toggleSwitch_Checked"/>
         </StackPanel>
     </Grid>
 </phone:PhoneApplicationPage>
