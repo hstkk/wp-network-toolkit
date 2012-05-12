@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
   <App xmlns="" ProductID="{4e7f3af8-9223-4924-8b17-9321b3f96617}" Title="Network toolkit" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="network_toolkit author" Description="Sample description" Publisher="network_toolkit">
     <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>

@@ -43,7 +43,12 @@
                                Style="{StaticResource PhoneTextExtraLargeStyle}"/>
                 </StackPanel>
             </controls:PivotItem>
+            <!--statistics-->
+            <controls:PivotItem Header="statistics">
+                <StackPanel>
 
+                </StackPanel>
+            </controls:PivotItem>
             <!--history-->
             <controls:PivotItem Header="history">
                 <StackPanel>

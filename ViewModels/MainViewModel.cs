@@ -63,10 +63,8 @@ namespace network_toolkit.ViewModels
             deserialize(favorites);
 
             this.MenuItems.Add(new Menu("dns lookup", "/Dns.xaml"));
-            this.MenuItems.Add(new Menu("ip calculator", "/Ip-calculator.xaml"));
             this.MenuItems.Add(new Menu("speed test", "/Speed-test.xaml"));
             this.MenuItems.Add(new Menu("tcp ping", "/Tcp-ping.xaml"));
-            this.MenuItems.Add(new Menu("whois lookup", "/Whois.xaml"));
             this.IsDataLoaded = true;
         }
 
