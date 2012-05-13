@@ -55,6 +55,12 @@
 
                 </StackPanel>
             </controls:PivotItem>
+            <!--map-->
+            <controls:PivotItem Header="map">
+                <StackPanel>
+
+                </StackPanel>
+            </controls:PivotItem>
         </controls:Pivot>
     </Grid>
 

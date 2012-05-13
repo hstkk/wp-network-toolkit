@@ -24,6 +24,46 @@ namespace network_toolkit
             InitializeComponent();
         }
 
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            if (PhoneApplicationService.Current.State.ContainsKey("tcpHost"))
+                PhoneApplicationService.Current.State.Remove("tcpHost");
+            PhoneApplicationService.Current.State.Add("tcpHost", host.Text);
+            if (PhoneApplicationService.Current.State.ContainsKey("tcpPort"))
+                PhoneApplicationService.Current.State.Remove("tcpPort");
+            PhoneApplicationService.Current.State.Add("tcpPort", port.Text);
+            if (PhoneApplicationService.Current.State.ContainsKey("tcpResult"))
+                PhoneApplicationService.Current.State.Remove("tcpResult");
+            PhoneApplicationService.Current.State.Add("tcpResult", result.Text);
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            string tmp;
+            if (PhoneApplicationService.Current.State.ContainsKey("tcpHost"))
+            {
+                tmp = PhoneApplicationService.Current.State["tcpHost"] as string;
+                if (!tmp.Equals(""))
+                    host.Text = tmp;
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("tcpPort"))
+            {
+                tmp = PhoneApplicationService.Current.State["tcpPort"] as string;
+                if (!tmp.Equals(""))
+                    port.Text = tmp;
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("tcpResult"))
+            {
+                tmp = PhoneApplicationService.Current.State["tcpResult"] as string;
+                if (!tmp.Equals(""))
+                    result.Text = tmp;
+            }
+        }
+
         private void enablePing(bool isPort = false)
         {
             if (validatePort(isPort) && validateHost())
@@ -103,6 +143,32 @@ namespace network_toolkit
         private void host_TextChanged(object sender, TextChangedEventArgs e)
         {
             enablePing();
+        }
+
+        private void orientationChanged(object sender, OrientationChangedEventArgs e)
+        {
+            if ((e.Orientation & PageOrientation.Portrait) == (PageOrientation.Portrait))
+            {
+                Grid.SetColumn(hostStack, 0);
+                Grid.SetRow(hostStack, 0);
+                Grid.SetColumn(portStack, 0);
+                Grid.SetRow(portStack, 1);
+                scrollViewer.Height = 336;
+                grid.ColumnDefinitions[1].Width = GridLength.Auto;
+                grid.ColumnDefinitions[2].Width = GridLength.Auto;
+                grid.ColumnDefinitions[0].Width = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                grid.ColumnDefinitions[0].Width = new GridLength(0);
+                grid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+                grid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+                Grid.SetColumn(hostStack, 1);
+                Grid.SetRow(hostStack, 0);
+                Grid.SetColumn(portStack, 2);
+                Grid.SetRow(portStack, 0);
+                scrollViewer.Height = 200;
+            }
         }
     }
 }

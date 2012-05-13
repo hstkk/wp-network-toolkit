@@ -9,15 +9,17 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait" Orientation="Portrait"
-    mc:Ignorable="d" d:DesignHeight="696" d:DesignWidth="480"
+    SupportedOrientations="PortraitOrLandscape" Orientation="Landscape"
+    mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="656"
     shell:SystemTray.IsVisible="True"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    OrientationChanged="orientationChanged">
 
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
@@ -25,27 +27,54 @@
             <TextBlock x:Name="PageTitle" Text="tcp ping" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1"
-                    Margin="12,0,12,0">
-            <TextBlock Text="Host"/>
-            <TextBox Name="host"
-                     InputScope="Url"
-                     TextChanged="host_TextChanged"/>
-            <TextBlock Text="Ports"/>
-            <!-- InputScope="TelephoneNumber" because space is used in split -->
-            <TextBox Name="port"
-                     InputScope="TelephoneLocalNumber"
-                     Text="22 80 443"
-                     TextChanged="port_TextChanged"/>
-            <toolkit:PerformanceProgressBar IsIndeterminate="False"
-                                            Name="performanceProgressBar"/>
-            <TextBlock Text="Result"
-                       Name="resultText"
-                       Visibility="Collapsed"/>
-            <TextBlock Name="result"
-                       Style="{StaticResource PhoneTextExtraLargeStyle}"
-                       TextWrapping="Wrap"/>
-        </StackPanel>
+        <Grid Grid.Row="1"
+              Name="grid"
+              Margin="12,0,12,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0"
+                        Grid.Column="0"
+                        Name="hostStack">
+                <TextBlock Text="Host"/>
+                <TextBox Name="host"
+                         InputScope="Url"
+                         TextChanged="host_TextChanged"
+                         Height="76"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1"
+                        Grid.Column="0"
+                        Name="portStack">
+                <TextBlock Text="Ports"/>
+                <!-- InputScope="TelephoneNumber" because space is used in split -->
+                <TextBox Name="port"
+                         InputScope="TelephoneLocalNumber"
+                         Text="22 80 443"
+                         TextChanged="port_TextChanged"
+                         Height="76"/>
+            </StackPanel>
+        </Grid>
+        <ScrollViewer Name="scrollViewer"
+                      Margin="12,0"
+                      Grid.Row="3"
+                      Height="336">
+                <StackPanel>
+                <toolkit:PerformanceProgressBar IsIndeterminate="False"
+                                                Name="performanceProgressBar"/>
+                <TextBlock Text="Result"
+                           Name="resultText"
+                           Visibility="Collapsed"/>
+                    <TextBlock Name="result"
+                               Style="{StaticResource PhoneTextExtraLargeStyle}"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </ScrollViewer>
     </Grid>
  
     <phone:PhoneApplicationPage.ApplicationBar>

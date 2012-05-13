@@ -39,7 +39,7 @@ namespace network_toolkit
         }
 
         //TODO add load more button to history
-        public static List<SpeedTest> getSpeedTests(int page = 0)
+        public static List<SpeedTest> getSpeedTests(/*int page = 0*/)
         {
             List<SpeedTest> speedTests = null;
             try
@@ -49,7 +49,7 @@ namespace network_toolkit
                     if (!speedTestDataContext.DatabaseExists())
                         speedTestDataContext.CreateDatabase();
                     speedTests = (from s in speedTestDataContext.SpeedTests
-                                  select s).Skip(25 * page).Take(25).ToList();
+                                  select s)/*.Skip(25 * page).Take(25)*/.ToList();
                 }
             }
             catch (Exception e)
@@ -59,7 +59,6 @@ namespace network_toolkit
             return speedTests;
         }
 
-        //TODO remove
         public static void removeSpeedTest(int id)
         {
             try

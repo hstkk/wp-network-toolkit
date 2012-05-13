@@ -31,6 +31,33 @@ namespace network_toolkit
         #endregion
 
         #region Events
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            if (PhoneApplicationService.Current.State.ContainsKey("location"))
+                PhoneApplicationService.Current.State.Remove("location");
+            PhoneApplicationService.Current.State.Add("location", toggleSwitch.IsChecked);
+            if (PhoneApplicationService.Current.State.ContainsKey("homescreen"))
+                PhoneApplicationService.Current.State.Remove("homescreen");
+            PhoneApplicationService.Current.State.Add("homescreen", favorites.IsChecked);
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            bool tmp;
+            if (PhoneApplicationService.Current.State.ContainsKey("location") && bool.TryParse(PhoneApplicationService.Current.State["location"] as string, out tmp))
+                toggleSwitch.IsChecked = tmp;
+            if (PhoneApplicationService.Current.State.ContainsKey("homescreen") && bool.TryParse(PhoneApplicationService.Current.State["homescreen"] as string, out tmp))
+            {
+                if (tmp)
+                    favorites.IsChecked = true;
+                else
+                    tools.IsChecked = true;
+            }
+        }
+        
         /// <summary>
         /// When toggleswitch is unchecked updates toggleswitch content and saves state to settings.
         /// </summary>

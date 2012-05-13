@@ -32,6 +32,39 @@ namespace network_toolkit
             return false;
         }
 
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            if (PhoneApplicationService.Current.State.ContainsKey("dnsHost"))
+                PhoneApplicationService.Current.State.Remove("dnsHost");
+            PhoneApplicationService.Current.State.Add("dnsHost", host.Text);
+            if (PhoneApplicationService.Current.State.ContainsKey("dnsResult"))
+                PhoneApplicationService.Current.State.Remove("dnsResult");
+            PhoneApplicationService.Current.State.Add("dnsResult", result.Text);
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            string tmp;
+            if (PhoneApplicationService.Current.State.ContainsKey("dnsHost"))
+            {
+                tmp = PhoneApplicationService.Current.State["dnsHost"] as string;
+                if (!tmp.Equals(""))
+                    host.Text = tmp;
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("dnsResult"))
+            {
+                tmp = PhoneApplicationService.Current.State["dnsResult"] as string;
+                if (!tmp.Equals(""))
+                {
+                    result.Text = tmp;
+                    resultText.Visibility = System.Windows.Visibility.Visible;
+                }
+            }
+        }
 
         private void resolve_Click(object sender, EventArgs e)
         {
