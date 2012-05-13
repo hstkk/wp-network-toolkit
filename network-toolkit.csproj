@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AmCharts.Windows.QuickCharts.WP">
+      <HintPath>References\AmCharts.Windows.QuickCharts.WP.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.0.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL" />
@@ -99,6 +102,7 @@
       <DependentUpon>Speed-test.xaml</DependentUpon>
     </Compile>
     <Compile Include="TcpPing.cs" />
+    <Compile Include="ViewModels\Chart.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\Menu.cs" />
     <Page Include="Settings.xaml">

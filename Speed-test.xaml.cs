@@ -16,6 +16,7 @@ using System.IO;
 using Microsoft.Phone.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using network_toolkit.ViewModels;
 
 namespace network_toolkit
 {
@@ -27,6 +28,8 @@ namespace network_toolkit
         long size;
         ObservableCollection<SpeedTest> history;
         CollectionViewSource collectionViewSource;
+        ObservableCollection<Chart> charts;
+        Dataprovider dataprovider;
         public Speed_test()
         {
             InitializeComponent();
@@ -47,6 +50,37 @@ namespace network_toolkit
             }
 
             listBox.DataContext = collectionViewSource;
+
+            dataprovider = new Dataprovider();
+            charts = new ObservableCollection<Chart>();
+            charts.Add(new Chart("Average"));
+            charts.Add(new Chart("Min"));
+            charts.Add(new Chart("Max"));
+            charts.Add(new Chart("Last"));
+            updateChart();
+            chart.DataContext = charts;
+        }
+
+        private void updateChart(double download = -1.0)
+        {
+            if (history.Count > 0)
+            {
+                if (download > 0)
+                    dataprovider.getSpeeds();
+                else
+                    download = dataprovider.last();
+                charts[0].download = dataprovider.average();
+                charts[1].download = dataprovider.min();
+                charts[2].download = dataprovider.max();
+                charts[3].download = download;
+            }
+            else
+            {
+                charts[0].download = 0;
+                charts[1].download = 0;
+                charts[2].download = 0;
+                charts[3].download = 0;
+            }
         }
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
@@ -111,6 +145,7 @@ namespace network_toolkit
                         Dataprovider.addSpeedTest(speedTest);
                         history.Add(speedTest);
                         speed.Text = result.ToString("0.00") + " Mbps";
+                        updateChart(result);
                     }
                 }
                 catch (Exception ex)
@@ -171,6 +206,7 @@ namespace network_toolkit
         {
             Dataprovider.clearDatabase();
             history.Clear();
+            updateChart();
         }
     }
 }

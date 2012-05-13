@@ -13,7 +13,8 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:chart="clr-namespace:AmCharts.Windows.QuickCharts;assembly=AmCharts.Windows.QuickCharts.WP">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -45,13 +46,23 @@
             </controls:PivotItem>
             <!--statistics-->
             <controls:PivotItem Header="statistics">
-                <StackPanel>
+                <chart:SerialChart Name="chart"
+                                   CategoryValueMemberPath="title"
+                                   AxisForeground="White"
+                                   PlotAreaBackground="Black"
+                                   DataSource="{Binding}"
+                                   GridStroke="DarkGray">
+                    <chart:SerialChart.Graphs>
+                        <chart:ColumnGraph Title="Mbps"
+                                           Brush="Blue"
+                                           ValueMemberPath="download"/>
+                    </chart:SerialChart.Graphs>
+                </chart:SerialChart>
                     <!--
                     average
                     min
                     max
                     last-->
-                </StackPanel>
             </controls:PivotItem>
             <!--history-->
             <controls:PivotItem Header="history">
