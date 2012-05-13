@@ -22,7 +22,7 @@ namespace network_toolkit
         {
             InitializeComponent();
 
-            toggleSwitch.IsChecked = (Application.Current as App).isLocationAllowed;
+            //toggleSwitch.IsChecked = (Application.Current as App).isLocationAllowed;
             if ((Application.Current as App).homescreen == 0)
                 favorites.IsChecked = true;
             else
@@ -34,9 +34,9 @@ namespace network_toolkit
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            if (PhoneApplicationService.Current.State.ContainsKey("location"))
+            /*if (PhoneApplicationService.Current.State.ContainsKey("location"))
                 PhoneApplicationService.Current.State.Remove("location");
-            PhoneApplicationService.Current.State.Add("location", toggleSwitch.IsChecked);
+            PhoneApplicationService.Current.State.Add("location", toggleSwitch.IsChecked);*/
             if (PhoneApplicationService.Current.State.ContainsKey("homescreen"))
                 PhoneApplicationService.Current.State.Remove("homescreen");
             PhoneApplicationService.Current.State.Add("homescreen", favorites.IsChecked);
@@ -47,8 +47,8 @@ namespace network_toolkit
             base.OnNavigatedTo(e);
 
             bool tmp;
-            if (PhoneApplicationService.Current.State.ContainsKey("location") && bool.TryParse(PhoneApplicationService.Current.State["location"] as string, out tmp))
-                toggleSwitch.IsChecked = tmp;
+            /*if (PhoneApplicationService.Current.State.ContainsKey("location") && bool.TryParse(PhoneApplicationService.Current.State["location"] as string, out tmp))
+                toggleSwitch.IsChecked = tmp;*/
             if (PhoneApplicationService.Current.State.ContainsKey("homescreen") && bool.TryParse(PhoneApplicationService.Current.State["homescreen"] as string, out tmp))
             {
                 if (tmp)
@@ -61,20 +61,20 @@ namespace network_toolkit
         /// <summary>
         /// When toggleswitch is unchecked updates toggleswitch content and saves state to settings.
         /// </summary>
-        private void toggleSwitch_Unchecked(object sender, RoutedEventArgs e)
+        /*private void toggleSwitch_Unchecked(object sender, RoutedEventArgs e)
         {
             toggleSwitch.Content = "Disallow";
             (Application.Current as App).isLocationAllowed = false;
-        }
+        }*/
 
         /// <summary>
         /// When toggleswitch is checked updates toggleswitch content and saves state to settings.
         /// </summary>
-        private void toggleSwitch_Checked(object sender, RoutedEventArgs e)
+        /*private void toggleSwitch_Checked(object sender, RoutedEventArgs e)
         {
             toggleSwitch.Content = "Allow";
             (Application.Current as App).isLocationAllowed = true;
-        }
+        }*/
 
 
         /// <summary>

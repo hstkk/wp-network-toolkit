@@ -17,7 +17,7 @@ namespace network_toolkit
     {
         private const string database = @"isostore:/network-toolkit.sdf";
 
-        public static void addSpeedTest(double download)
+        public static void addSpeedTest(SpeedTest speedTest)
         {
             try
             {
@@ -25,9 +25,6 @@ namespace network_toolkit
                 {
                     if (!speedTestDataContext.DatabaseExists())
                         speedTestDataContext.CreateDatabase();
-                    SpeedTest speedTest = new SpeedTest();
-                    speedTest.Created = DateTime.Now;
-                    speedTest.Download = download;
                     speedTestDataContext.SpeedTests.InsertOnSubmit(speedTest);
                     speedTestDataContext.SubmitChanges();
                 }
@@ -38,10 +35,9 @@ namespace network_toolkit
             }
         }
 
-        //TODO add load more button to history
         public static List<SpeedTest> getSpeedTests(/*int page = 0*/)
         {
-            List<SpeedTest> speedTests = null;
+            List<SpeedTest> speedTests = new List<SpeedTest>();
             try
             {
                 using (SpeedTestDataContext speedTestDataContext = new SpeedTestDataContext(database))
@@ -49,6 +45,7 @@ namespace network_toolkit
                     if (!speedTestDataContext.DatabaseExists())
                         speedTestDataContext.CreateDatabase();
                     speedTests = (from s in speedTestDataContext.SpeedTests
+                                  orderby s.Created descending
                                   select s)/*.Skip(25 * page).Take(25)*/.ToList();
                 }
             }
@@ -95,6 +92,69 @@ namespace network_toolkit
             {
                 MessageBox.Show("Error can't use database");
             }
+        }
+
+        public static double average()
+        {
+            double average = -1.0;
+            try
+            {
+                using (SpeedTestDataContext speedTestDataContext = new SpeedTestDataContext(database))
+                {
+                    if (speedTestDataContext.DatabaseExists())
+                    {
+                        average = (from s in speedTestDataContext.SpeedTests
+                                   select s.Download).Average();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error can't use database");
+            }
+            return average;
+        }
+
+        public static double min()
+        {
+            double min = -1.0;
+            try
+            {
+                using (SpeedTestDataContext speedTestDataContext = new SpeedTestDataContext(database))
+                {
+                    if (speedTestDataContext.DatabaseExists())
+                    {
+                        min = (from s in speedTestDataContext.SpeedTests
+                                   select s.Download).Min();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error can't use database");
+            }
+            return min;
+        }
+
+        public static double max()
+        {
+            double max = -1.0;
+            try
+            {
+                using (SpeedTestDataContext speedTestDataContext = new SpeedTestDataContext(database))
+                {
+                    if (speedTestDataContext.DatabaseExists())
+                    {
+                        max = (from s in speedTestDataContext.SpeedTests
+                               select s.Download).Max();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error can't use database");
+            }
+            return max;
         }
     }
 }

@@ -40,12 +40,12 @@
                          Tag="1"
                          GroupName="Homescreen"
                          Checked="radioButton_Checked"/>
-            <TextBlock Text="Allow the network toolkit to access your location?"
+            <!--<TextBlock Text="Allow the network toolkit to access your location?"
                        TextWrapping="Wrap"/>
             <toolkit:ToggleSwitch Name="toggleSwitch"
                                   Content="Disallow"
                                   Unchecked="toggleSwitch_Unchecked"
-                                  Checked="toggleSwitch_Checked"/>
+                                  Checked="toggleSwitch_Checked"/>-->
         </StackPanel>
     </Grid>
 </phone:PhoneApplicationPage>

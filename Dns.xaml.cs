@@ -126,5 +126,13 @@ namespace network_toolkit
             else
                 (ApplicationBar.Buttons[0] as ApplicationBarIconButton).IsEnabled = false;
         }
+
+        private void orientationChanged(object sender, OrientationChangedEventArgs e)
+        {
+            if ((e.Orientation & PageOrientation.Portrait) == (PageOrientation.Portrait))
+                scrollViewer.Height = 430;
+            else
+                scrollViewer.Height = 216;
+        }
     }
 }

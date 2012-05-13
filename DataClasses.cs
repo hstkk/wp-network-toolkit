@@ -84,6 +84,11 @@ namespace network_toolkit
 		{
 			OnCreated();
 		}
+
+        public override string ToString()
+        {
+            return _Download.ToString("0.00") + " Mbps, " + _Created;
+        }
 		
 		[Column(Name="id", Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id

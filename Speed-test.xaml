@@ -46,30 +46,43 @@
             <!--statistics-->
             <controls:PivotItem Header="statistics">
                 <StackPanel>
-
+                    <!--
+                    average
+                    min
+                    max
+                    last-->
                 </StackPanel>
             </controls:PivotItem>
             <!--history-->
             <controls:PivotItem Header="history">
-                <StackPanel>
-
-                </StackPanel>
-            </controls:PivotItem>
-            <!--map-->
-            <controls:PivotItem Header="map">
-                <StackPanel>
-
-                </StackPanel>
+                <ListBox ItemsSource="{Binding}"
+                         Height="535"
+                         Name="listBox">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap"
+                                           Style="{StaticResource PhoneTextLargeStyle}"/>
+                                <Rectangle Fill="WhiteSmoke"
+                                           Height="1"
+                                           HorizontalAlignment="Stretch"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </controls:PivotItem>
         </controls:Pivot>
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True"
-                              IsMenuEnabled="False">
+        <shell:ApplicationBar IsVisible="True">
             <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png"
                                             Text="Download"
                                             Click="download_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="clear the database" Click="applicationBarMenuItem_Click"/>
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
     
