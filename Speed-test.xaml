@@ -58,11 +58,6 @@
                                            ValueMemberPath="download"/>
                     </chart:SerialChart.Graphs>
                 </chart:SerialChart>
-                    <!--
-                    average
-                    min
-                    max
-                    last-->
             </controls:PivotItem>
             <!--history-->
             <controls:PivotItem Header="history">

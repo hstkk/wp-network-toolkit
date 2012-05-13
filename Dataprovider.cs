@@ -69,7 +69,7 @@ namespace network_toolkit
                 {
                     if (speedTestDataContext.DatabaseExists())
                         speeds = (from s in speedTestDataContext.SpeedTests
-                                      orderby s.Created descending
+                                      orderby s.Created ascending
                                       select s.Download).ToList();
                 }
             }

@@ -17,6 +17,7 @@ using Microsoft.Phone.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using network_toolkit.ViewModels;
+using System.ComponentModel;
 
 namespace network_toolkit
 {
@@ -30,6 +31,7 @@ namespace network_toolkit
         CollectionViewSource collectionViewSource;
         ObservableCollection<Chart> charts;
         Dataprovider dataprovider;
+
         public Speed_test()
         {
             InitializeComponent();
@@ -58,21 +60,19 @@ namespace network_toolkit
             charts.Add(new Chart("Max"));
             charts.Add(new Chart("Last"));
             updateChart();
-            chart.DataContext = charts;
+            chart.DataSource = charts;
         }
 
         private void updateChart(double download = -1.0)
         {
+            chart.DataSource = null;
+
             if (history.Count > 0)
             {
-                if (download > 0)
-                    dataprovider.getSpeeds();
-                else
-                    download = dataprovider.last();
                 charts[0].download = dataprovider.average();
                 charts[1].download = dataprovider.min();
                 charts[2].download = dataprovider.max();
-                charts[3].download = download;
+                charts[3].download = (download>0) ? download : dataprovider.last();
             }
             else
             {
@@ -81,6 +81,8 @@ namespace network_toolkit
                 charts[2].download = 0;
                 charts[3].download = 0;
             }
+            //chart.DataContext = charts;
+            chart.UpdateLayout();
         }
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
@@ -145,6 +147,7 @@ namespace network_toolkit
                         Dataprovider.addSpeedTest(speedTest);
                         history.Add(speedTest);
                         speed.Text = result.ToString("0.00") + " Mbps";
+                        dataprovider.getSpeeds();
                         updateChart(result);
                     }
                 }
@@ -207,6 +210,8 @@ namespace network_toolkit
             Dataprovider.clearDatabase();
             history.Clear();
             updateChart();
+            charts.Clear();
+
         }
     }
 }
