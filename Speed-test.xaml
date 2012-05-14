@@ -11,11 +11,11 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    xmlns:chart="clr-namespace:AmCharts.Windows.QuickCharts;assembly=AmCharts.Windows.QuickCharts.WP">
-
+    xmlns:chart="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+    OrientationChanged="orientationChanged">
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivot Control-->
@@ -46,18 +46,12 @@
             </controls:PivotItem>
             <!--statistics-->
             <controls:PivotItem Header="statistics">
-                <chart:SerialChart Name="chart"
-                                   CategoryValueMemberPath="title"
-                                   AxisForeground="White"
-                                   PlotAreaBackground="Black"
-                                   DataSource="{Binding}"
-                                   GridStroke="DarkGray">
-                    <chart:SerialChart.Graphs>
-                        <chart:ColumnGraph Title="Mbps"
-                                           Brush="Blue"
-                                           ValueMemberPath="download"/>
-                    </chart:SerialChart.Graphs>
-                </chart:SerialChart>
+                <chart:Chart Name="barChart">
+                    <chart:ColumnSeries Title="Mbps"
+                                     ItemsSource="{Binding}"
+                                     IndependentValuePath="title"
+                                     DependentValuePath="download"/>
+                </chart:Chart>
             </controls:PivotItem>
             <!--history-->
             <controls:PivotItem Header="history">

@@ -16,8 +16,8 @@ using System.IO;
 using Microsoft.Phone.Tasks;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
-using network_toolkit.ViewModels;
 using System.ComponentModel;
+using System.Windows.Controls.DataVisualization.Charting;
 
 namespace network_toolkit
 {
@@ -29,7 +29,7 @@ namespace network_toolkit
         long size;
         ObservableCollection<SpeedTest> history;
         CollectionViewSource collectionViewSource;
-        ObservableCollection<Chart> charts;
+        ObservableCollection<network_toolkit.ViewModels.Chart> charts;
         Dataprovider dataprovider;
 
         public Speed_test()
@@ -54,19 +54,17 @@ namespace network_toolkit
             listBox.DataContext = collectionViewSource;
 
             dataprovider = new Dataprovider();
-            charts = new ObservableCollection<Chart>();
-            charts.Add(new Chart("Average"));
-            charts.Add(new Chart("Min"));
-            charts.Add(new Chart("Max"));
-            charts.Add(new Chart("Last"));
+            charts = new ObservableCollection<network_toolkit.ViewModels.Chart>();
+            charts.Add(new network_toolkit.ViewModels.Chart("Average"));
+            charts.Add(new network_toolkit.ViewModels.Chart("Min"));
+            charts.Add(new network_toolkit.ViewModels.Chart("Max"));
+            charts.Add(new network_toolkit.ViewModels.Chart("Last"));
             updateChart();
-            chart.DataSource = charts;
+            barChart.DataContext = charts;
         }
 
         private void updateChart(double download = -1.0)
         {
-            chart.DataSource = null;
-
             if (history.Count > 0)
             {
                 charts[0].download = dataprovider.average();
@@ -81,8 +79,6 @@ namespace network_toolkit
                 charts[2].download = 0;
                 charts[3].download = 0;
             }
-            //chart.DataContext = charts;
-            chart.UpdateLayout();
         }
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
@@ -212,6 +208,14 @@ namespace network_toolkit
             updateChart();
             charts.Clear();
 
+        }
+
+        private void orientationChanged(object sender, OrientationChangedEventArgs e)
+        {
+            if ((e.Orientation & PageOrientation.Portrait) == (PageOrientation.Portrait))
+                listBox.Height = 535;
+            else
+                listBox.Height = 335;
         }
     }
 }
