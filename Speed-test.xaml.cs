@@ -31,6 +31,7 @@ namespace network_toolkit
         CollectionViewSource collectionViewSource;
         ObservableCollection<network_toolkit.ViewModels.Chart> charts;
         Dataprovider dataprovider;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Speed_test()
         {
@@ -83,12 +84,55 @@ namespace network_toolkit
 
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
-            base.OnNavigatedFrom(e);
+            if (PhoneApplicationService.Current.State.ContainsKey("testFile"))
+                PhoneApplicationService.Current.State.Remove("testFile");
+            PhoneApplicationService.Current.State.Add("testFile", testFile.Text);
+            if (PhoneApplicationService.Current.State.ContainsKey("speed"))
+                PhoneApplicationService.Current.State.Remove("speed");
+            PhoneApplicationService.Current.State.Add("speed", speed.Text);
+            if (PhoneApplicationService.Current.State.ContainsKey("chart"))
+                PhoneApplicationService.Current.State.Remove("chart");
+            PhoneApplicationService.Current.State.Add("chart", charts);
+            if (PhoneApplicationService.Current.State.ContainsKey("history"))
+                PhoneApplicationService.Current.State.Remove("history");
+            PhoneApplicationService.Current.State.Add("history", history);
         }
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
+            string tmp;
+            if (PhoneApplicationService.Current.State.ContainsKey("testFile"))
+            {
+                tmp = PhoneApplicationService.Current.State["testFile"] as string;
+                if (!tmp.Equals(""))
+                    testFile.Text = tmp;
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("speed"))
+            {
+                tmp = PhoneApplicationService.Current.State["speed"] as string;
+                if (!tmp.Equals(""))
+                    speed.Text = tmp;
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("chart"))
+            {
+                Object obj = PhoneApplicationService.Current.State["chart"];
+                if (obj != null)
+                {
+                    charts = obj as ObservableCollection<network_toolkit.ViewModels.Chart>;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs("charts"));
+                }
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("history"))
+            {
+                Object obj = PhoneApplicationService.Current.State["history"];
+                if (obj != null)
+                {
+                    history = obj as ObservableCollection<SpeedTest>;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs("history"));
+                }
+            }
         }
 
         private void pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
